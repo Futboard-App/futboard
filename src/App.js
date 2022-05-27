@@ -73,7 +73,7 @@ function App() {
           </Switch>
         </main>
       </div>
-      ;
+      
     </Router>
   );
 }
