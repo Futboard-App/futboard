@@ -44,3 +44,13 @@ export async function updateProfile() {
 }
 
 // Other Supabase Functions
+
+export async function getAllTeamsByLeague(id) {
+  const response = await client.from('teams').select().match({ league_id: id });
+  return checkError(response);
+}
+
+export async function getAllLeagues() {
+  const response = await client.from('leagues').select();
+  return checkError(response);
+}
