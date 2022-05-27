@@ -24,21 +24,21 @@ export function getUser() {
 }
 
 // Creating & Updating Rows in User Info Table
-export async function createUserInfo() {
-  const response = await client.from('user_info').insert({});
+export async function createProfile() {
+  const response = await client.from('profiles').insert({});
   return checkError(response);
 }
 
-export async function getUserInfo() {
+export async function getProfile() {
   const user = getUser();
-  const response = await client.from('user_info').select().match({ user_id: user.id }).single();
+  const response = await client.from('profiles').select().match({ user_id: user.id }).single();
 
   return checkError(response);
 }
 
-export async function updateUserInfo() {
+export async function updateProfile() {
   const user = getUser();
-  const response = await client.from('user_info').update({}).match({ user_id: user.id });
+  const response = await client.from('profiles').update({}).match({ user_id: user.id });
 
   return checkError(response);
 }
