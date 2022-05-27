@@ -87,6 +87,7 @@ export default function ProfileSetupPage() {
     setActiveStep(0);
   };
 
+  console.log(teams);
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -120,9 +121,11 @@ export default function ProfileSetupPage() {
           <div>
             {teams.map((team) => {
               return (
-                <Box key={team.team_id}>
-                  <Typography>{team.team_name}</Typography>
-                </Box>
+                <label key={team.team_id} >
+                  <input type="radio" name="team" value={team.team_id}/>
+                  {team.team_name}
+                  <span><img alt={team.team_name} src={team.team_logo} /></span>
+                </label>
               );
             })}
           </div>
