@@ -47,5 +47,21 @@ export default function AuthPage({ setCurrentUser }) {
       </label>
       <button> Submit</button>
     </form>
+    <form onSubmit={handleSignUp}>
+      <p>Sign Up</p>
+      <label>
+          
+        <TextField margin='normal' size='small' id="outlined-basic" label="E-mail" variant="outlined" value={signUpData.email} type='email' onChange={(e) => setSignUpData({ 
+          email: e.target.value, 
+          password: signUpData.password 
+        })} />
+          
+        <TextField margin='normal' size='small' id="outlined-basic" label="Password" variant="outlined" value={signUpData.password} type='password' onChange={(e) => setSignUpData({ 
+          email: signUpData.email, 
+          password: e.target.value
+        })}/>
+      </label>
+      <button> Submit </button>
+    </form>
   </div>;
 }
