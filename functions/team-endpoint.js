@@ -9,6 +9,7 @@ const headers = {
 
 exports.handler = async (event, context) => {
   const leagueId = event.queryStringParameters.leagueId;
+  const season = event.queryStringParameters.season;
   try {
     const response = await fetch(
       `https://v3.football.api-sports.io/teams?league=${leagueId}&season=${season}`,
