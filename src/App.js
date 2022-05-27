@@ -1,7 +1,7 @@
 import './App.css';
 import { useEffect } from 'react';
 import { useStateContext } from './StateProvider';
-import { getUser } from './services/supabase-utils';
+import { getUser, getProfile } from './services/supabase-utils';
 import { BrowserRouter as Router, Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import AuthPage from './components/pages/AuthPage';
 import ProfileSetupPage from './components/pages/ProfileSetupPage';
@@ -10,8 +10,16 @@ import SearchPage from './components/pages/SearchPage';
 import LeaguePage from './components/pages/LeaguePage';
 import TeamPage from './components/pages/TeamPage';
 
+
 function App() {
-  const { currentUser, setCurrentUser } = useStateContext();
+  const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
+
+  async function checkProfileData() {
+    const profile = await getProfile();
+    setCurrentProfile(profile);
+    
+  }
+  
 
   useEffect(() => {
     async function load() {
@@ -42,7 +50,13 @@ function App() {
               )}
             </Route>
             <Route exact path="/profile-setup">
-              {currentUser ? <ProfileSetupPage /> : <Redirect to="/" />}
+              {currentUser 
+                ? (currentProfile.step_1_complete 
+                  ? (currentProfile.step_2_complete 
+                    ? <Redirect to='/home' /> 
+                    : <ProfileSetupPage step={2}/>) 
+                  : <ProfileSetupPage step={1}/>) 
+                : <Redirect to="/" />}
             </Route>
             <Route exact path="home">
               {currentUser ? <HomePage /> : <Redirect to="/" />}

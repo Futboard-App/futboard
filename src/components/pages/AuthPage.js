@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { signInUser, signUpUser } from '../../services/supabase-utils';
+import { signInUser, signUpUser, createProfile } from '../../services/supabase-utils';
 
 export default function AuthPage({ setCurrentUser }) {
 
@@ -28,6 +28,7 @@ export default function AuthPage({ setCurrentUser }) {
     const { email, password } = signUpData;
     const user = await signUpUser(email, password);
     setCurrentUser(user);
+    await createProfile(email);
     push('/');
   }
 
@@ -50,7 +51,6 @@ export default function AuthPage({ setCurrentUser }) {
     <form onSubmit={handleSignUp}>
       <p>Sign Up</p>
       <label>
-          
         <TextField margin='normal' size='small' id="outlined-basic" label="E-mail" variant="outlined" value={signUpData.email} type='email' onChange={(e) => setSignUpData({ 
           email: e.target.value, 
           password: signUpData.password 
