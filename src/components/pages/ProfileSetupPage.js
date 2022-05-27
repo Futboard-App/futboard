@@ -87,7 +87,6 @@ export default function ProfileSetupPage() {
     setActiveStep(0);
   };
 
-  console.log(teams);
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -132,10 +131,41 @@ export default function ProfileSetupPage() {
         </div>
       )}
       {activeStep === 1 && (
-        <div>Step 2</div>
+        <div>
+          <div>
+            {leagues.map((league) => {
+              return (
+                <label key={league.league_id} >
+                  <input type="radio" value={league.league_id}/>
+                  {league.league_name}
+                  <span><img alt={league.league_name} src={league.league_logo} /></span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
       )}
       {activeStep === 2 && (
-        <div>Step 3</div>
+        <div>
+          <InputLabel id="demo-simple-select-label">Select a league</InputLabel>
+          <Select id='league' labelId="demo-simple-select-label" label={'Select a league'} value={leagueID} onChange={handleLeagueChange}>
+            {leagues.filter(item => item.league_type === 'League').map((league) => {
+              return (
+                <MenuItem key={league.supabase_id} value={league.league_id}>{league.league_name}</MenuItem>
+              );})}
+          </Select>
+          <div>
+            {teams.map((team) => {
+              return (
+                <label key={team.team_id} >
+                  <input type="radio" value={team.team_id}/>
+                  {team.team_name}
+                  <span><img alt={team.team_name} src={team.team_logo} /></span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
       )}
       <Grid container justifyContent="center" alignItems="center" direction="row" rows={1} columns={2}>
         <Button
