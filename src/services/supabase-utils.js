@@ -24,8 +24,8 @@ export function getUser() {
 }
 
 // Creating & Updating Rows in User Info Table
-export async function createProfile() {
-  const response = await client.from('profiles').insert({});
+export async function createProfile(email) {
+  const response = await client.from('profiles').insert({ username: email });
   return checkError(response);
 }
 
