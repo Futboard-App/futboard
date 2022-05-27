@@ -4,20 +4,28 @@ require('dotenv').config();
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
 };
 
-
 exports.handler = async (event, context) => {
+  const leagueId = event.queryStringParameters.leagueId;
+  const season = event.queryStringParameters.season;
   try {
-    const response = await fetch('https://cat-fact.herokuapp.com/facts');
+    const response = await fetch(
+      `https://v3.football.api-sports.io/teams?league=${leagueId}&season=${season}`,
+      {
+        headers: {
+          'x-rapidapi-key': `${process.env.API_FOOTBALL_KEY}`,
+        },
+      }
+    );
     const data = await response.json();
     const json = JSON.stringify(data);
-    
-    return { 
-      statusCode: 200, 
+
+    return {
+      statusCode: 200,
       headers,
-      body: json
+      body: json,
     };
   } catch (error) {
     console.log(error);
