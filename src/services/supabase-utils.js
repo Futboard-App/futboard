@@ -19,7 +19,7 @@ export async function logout() {
   return (window.location.href = '../');
 }
 
-export function getUser() {
+export async function getUser() {
   return client.auth.session();
 }
 
@@ -29,16 +29,15 @@ export async function createProfile(email) {
   return checkError(response);
 }
 
-export async function getProfile() {
-  const user = getUser();
-  const response = await client.from('profiles').select().match({ user_id: user.id }).single();
+export async function getProfile(id) {
+  const response = await client.from('profiles').select().match({ user_id: id }).single();
 
   return checkError(response);
 }
 
-export async function updateProfile() {
+export async function updateProfile(profile) {
   const user = getUser();
-  const response = await client.from('profiles').update({}).match({ user_id: user.id });
+  const response = await client.from('profiles').update(profile).match({ user_id: user.id });
 
   return checkError(response);
 }

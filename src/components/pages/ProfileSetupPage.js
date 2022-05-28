@@ -5,8 +5,15 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { getAllLeagues, getAllTeamsByLeague } from '../../services/supabase-utils';
+import {
+  getAllLeagues,
+  getAllTeamsByLeague,
+  logout,
+  getProfile,
+  updateProfile,
+} from '../../services/supabase-utils';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { useStateContext } from '../../StateProvider';
 
 const steps = ['Select Favorite Team', 'Select Leagues to Follow', 'Other Favorite Teams'];
 
@@ -17,6 +24,7 @@ export default function ProfileSetupPage() {
   const [leagueID, setLeagueID] = React.useState(61);
   const [leagues, setLeagues] = React.useState([]);
   const [profileForm, setProfileForm] = React.useState({});
+  const { currentProfile, setCurrentProfile, currentUser } = useStateContext();
 
   React.useEffect(() => {
     async function load() {
@@ -30,9 +38,13 @@ export default function ProfileSetupPage() {
     async function load2() {
       const response = await getAllLeagues();
       setLeagues(response);
+
+      const profile = await getProfile(currentUser.id);
+      setCurrentProfile(profile);
     }
     load2();
   }, []);
+  console.log('current Profile', currentProfile);
 
   const isStepOptional = (step) => {
     return step === 2;
@@ -50,15 +62,16 @@ export default function ProfileSetupPage() {
       setTeams(response);
     }
     loadTeams(event.target.value);
-
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
+
+    await updateProfile(currentProfile);
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
@@ -94,9 +107,7 @@ export default function ProfileSetupPage() {
           const stepProps = {};
           const labelProps = {};
           if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
+            labelProps.optional = <Typography variant="caption">Optional</Typography>;
           }
           if (isStepSkipped(index)) {
             stepProps.completed = false;
@@ -111,19 +122,32 @@ export default function ProfileSetupPage() {
       {activeStep === 0 && (
         <div>
           <InputLabel id="demo-simple-select-label">Select a league</InputLabel>
-          <Select id='league' labelId="demo-simple-select-label" label={'Select a league'} value={leagueID} onChange={handleLeagueChange}>
-            {leagues.filter(item => item.league_type === 'League').map((league) => {
-              return (
-                <MenuItem key={league.supabase_id} value={league.league_id}>{league.league_name}</MenuItem>
-              );})}
+          <Select
+            id="league"
+            labelId="demo-simple-select-label"
+            label={'Select a league'}
+            value={leagueID}
+            onChange={handleLeagueChange}
+          >
+            {leagues
+              .filter((item) => item.league_type === 'League')
+              .map((league) => {
+                return (
+                  <MenuItem key={league.supabase_id} value={league.league_id}>
+                    {league.league_name}
+                  </MenuItem>
+                );
+              })}
           </Select>
           <div>
             {teams.map((team) => {
               return (
-                <label key={team.team_id} >
-                  <input type="radio" name="team" value={team.team_id}/>
+                <label key={team.team_id}>
+                  <input type="radio" name="team" value={team.team_id} />
                   {team.team_name}
-                  <span><img alt={team.team_name} src={team.team_logo} /></span>
+                  <span>
+                    <img alt={team.team_name} src={team.team_logo} />
+                  </span>
                 </label>
               );
             })}
@@ -135,10 +159,12 @@ export default function ProfileSetupPage() {
           <div>
             {leagues.map((league) => {
               return (
-                <label key={league.league_id} >
-                  <input type="radio" value={league.league_id}/>
+                <label key={league.league_id}>
+                  <input type="radio" value={league.league_id} />
                   {league.league_name}
-                  <span><img alt={league.league_name} src={league.league_logo} /></span>
+                  <span>
+                    <img alt={league.league_name} src={league.league_logo} />
+                  </span>
                 </label>
               );
             })}
@@ -148,42 +174,57 @@ export default function ProfileSetupPage() {
       {activeStep === 2 && (
         <div>
           <InputLabel id="demo-simple-select-label">Select a league</InputLabel>
-          <Select id='league' labelId="demo-simple-select-label" label={'Select a league'} value={leagueID} onChange={handleLeagueChange}>
-            {leagues.filter(item => item.league_type === 'League').map((league) => {
-              return (
-                <MenuItem key={league.supabase_id} value={league.league_id}>{league.league_name}</MenuItem>
-              );})}
+          <Select
+            id="league"
+            labelId="demo-simple-select-label"
+            label={'Select a league'}
+            value={leagueID}
+            onChange={handleLeagueChange}
+          >
+            {leagues
+              .filter((item) => item.league_type === 'League')
+              .map((league) => {
+                return (
+                  <MenuItem key={league.supabase_id} value={league.league_id}>
+                    {league.league_name}
+                  </MenuItem>
+                );
+              })}
           </Select>
           <div>
             {teams.map((team) => {
               return (
-                <label key={team.team_id} >
-                  <input type="radio" value={team.team_id}/>
+                <label key={team.team_id}>
+                  <input type="radio" value={team.team_id} />
                   {team.team_name}
-                  <span><img alt={team.team_name} src={team.team_logo} /></span>
+                  <span>
+                    <img alt={team.team_name} src={team.team_logo} />
+                  </span>
                 </label>
               );
             })}
           </div>
         </div>
       )}
-      <Grid container justifyContent="center" alignItems="center" direction="row" rows={1} columns={2}>
-        <Button
-          color="inherit"
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          sx={{ mr: 1 }}>
-              Back
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        direction="row"
+        rows={1}
+        columns={2}
+      >
+        <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+          Back
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
         {isStepOptional(activeStep) && (
           <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
+            Skip
           </Button>
         )}
-        <Button onClick={handleNext}>
-          {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-        </Button>
+        <Button onClick={handleNext}>{activeStep === steps.length - 1 ? 'Finish' : 'Next'}</Button>
+        <Button onClick={logout}>logout</Button>
       </Grid>
     </Box>
   );
