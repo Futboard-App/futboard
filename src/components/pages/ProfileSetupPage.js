@@ -14,6 +14,7 @@ import {
 } from '../../services/supabase-utils';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { useStateContext } from '../../StateProvider';
+import './profile-setup.scss';
 
 const steps = ['Select Favorite Team', 'Select Leagues to Follow', 'Other Favorite Teams'];
 
@@ -120,7 +121,7 @@ export default function ProfileSetupPage() {
         })}
       </Stepper>
       {activeStep === 0 && (
-        <div>
+        <div className='setup-card'>
           <InputLabel id="demo-simple-select-label">Select a league</InputLabel>
           <Select
             id="league"
@@ -139,10 +140,10 @@ export default function ProfileSetupPage() {
                 );
               })}
           </Select>
-          <div>
+          <div className='card_div'>
             {teams.map((team) => {
               return (
-                <label key={team.team_id}>
+                <label className='setup_card' key={team.team_id}>
                   <input type="radio" name="team" value={team.team_id} />
                   {team.team_name}
                   <span>
@@ -156,10 +157,10 @@ export default function ProfileSetupPage() {
       )}
       {activeStep === 1 && (
         <div>
-          <div>
+          <div className='card_div'>
             {leagues.map((league) => {
               return (
-                <label key={league.league_id}>
+                <label className='setup_card' key={league.league_id}>
                   <input type="radio" value={league.league_id} />
                   {league.league_name}
                   <span>
@@ -191,10 +192,10 @@ export default function ProfileSetupPage() {
                 );
               })}
           </Select>
-          <div>
+          <div className='card_div'>
             {teams.map((team) => {
               return (
-                <label key={team.team_id}>
+                <label className='setup_card' key={team.team_id}>
                   <input type="radio" value={team.team_id} />
                   {team.team_name}
                   <span>
