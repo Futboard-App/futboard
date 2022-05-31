@@ -35,9 +35,8 @@ export async function getProfile(id) {
   return checkError(response);
 }
 
-export async function updateProfile(profile) {
-  const user = getUser();
-  const response = await client.from('profiles').update(profile).match({ user_id: user.id });
+export async function updateProfile(profile, id) {
+  const response = await client.from('profiles').update(profile).match({ id });
 
   return checkError(response);
 }

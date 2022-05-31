@@ -15,6 +15,7 @@ import {
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { useStateContext } from '../../StateProvider';
 import './profile-setup.scss';
+import { useHistory } from 'react-router-dom';
 
 const steps = ['Select Favorite Team', 'Select Leagues to Follow', 'Other Favorite Teams'];
 
@@ -26,6 +27,7 @@ export default function ProfileSetupPage() {
   const [leagues, setLeagues] = React.useState([]);
   const [profileForm, setProfileForm] = React.useState({});
   const { currentProfile, setCurrentProfile, currentUser } = useStateContext();
+  const { push } = useHistory();
 
   React.useEffect(() => {
     async function load() {
@@ -71,8 +73,18 @@ export default function ProfileSetupPage() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
+    if (activeStep === 0) {
+      currentProfile.step_1_complete = true;
+      currentProfile.followed_leagues = [];
+    }
+    if (activeStep === 1) {
+      currentProfile.step_2_complete = true;
+    }
+    if (activeStep === 2) {
+      push('/home');
+    }
 
-    await updateProfile(currentProfile);
+    await updateProfile(currentProfile, currentProfile.id);
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
@@ -101,6 +113,24 @@ export default function ProfileSetupPage() {
     setActiveStep(0);
   };
 
+  function handleStep1(team_id) {
+    currentProfile.primary_team = team_id;
+    currentProfile.favorite_teams = [team_id];
+  }
+
+  function handleStep2(league_id) {
+    // if (currentProfile.followed_leagues.includes(league_id)) {
+    //   const index = currentProfile.followed_leagues.findIndex(league_id);
+    //   currentProfile.followed_leagues.splice(
+    //     currentProfile.followed_leagues.findIndex(league_id),
+    //     1
+    //   );
+    // } else {
+    currentProfile.followed_leagues.push(league_id);
+    // }
+    console.log(currentProfile);
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -121,7 +151,7 @@ export default function ProfileSetupPage() {
         })}
       </Stepper>
       {activeStep === 0 && (
-        <div className='setup-card'>
+        <div className="setup-card">
           <InputLabel id="demo-simple-select-label">Select a league</InputLabel>
           <Select
             id="league"
@@ -140,11 +170,16 @@ export default function ProfileSetupPage() {
                 );
               })}
           </Select>
-          <div className='card_div'>
+          <div className="card_div">
             {teams.map((team) => {
               return (
-                <label className='setup_card' key={team.team_id}>
-                  <input type="radio" name="team" value={team.team_id} />
+                <label className="setup_card" key={team.team_id}>
+                  <input
+                    type="radio"
+                    name="team"
+                    value={team.team_id}
+                    onChange={handleStep1(team.team_id)}
+                  />
                   {team.team_name}
                   <span>
                     <img alt={team.team_name} src={team.team_logo} />
@@ -157,11 +192,15 @@ export default function ProfileSetupPage() {
       )}
       {activeStep === 1 && (
         <div>
-          <div className='card_div'>
+          <div className="card_div">
             {leagues.map((league) => {
               return (
-                <label className='setup_card' key={league.league_id}>
-                  <input type="radio" value={league.league_id} />
+                <label className="setup_card" key={league.league_id}>
+                  <input
+                    type="checkbox"
+                    value={league.league_id}
+                    onChange={(e) => handleStep2(e.target.value)}
+                  />
                   {league.league_name}
                   <span>
                     <img alt={league.league_name} src={league.league_logo} />
@@ -192,10 +231,10 @@ export default function ProfileSetupPage() {
                 );
               })}
           </Select>
-          <div className='card_div'>
+          <div className="card_div">
             {teams.map((team) => {
               return (
-                <label className='setup_card' key={team.team_id}>
+                <label className="setup_card" key={team.team_id}>
                   <input type="radio" value={team.team_id} />
                   {team.team_name}
                   <span>
