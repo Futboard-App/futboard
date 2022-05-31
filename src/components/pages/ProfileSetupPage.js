@@ -11,6 +11,7 @@ import {
   logout,
   getProfile,
   updateProfile,
+  getUser,
 } from '../../services/supabase-utils';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { useStateContext } from '../../StateProvider';
@@ -26,7 +27,7 @@ export default function ProfileSetupPage() {
   const [leagueID, setLeagueID] = React.useState(61);
   const [leagues, setLeagues] = React.useState([]);
   const [profileForm, setProfileForm] = React.useState({});
-  const { currentProfile, setCurrentProfile, currentUser } = useStateContext();
+  const { currentProfile, setCurrentProfile, currentUser, setCurrentUser } = useStateContext();
   const { push } = useHistory();
 
   React.useEffect(() => {
@@ -39,15 +40,28 @@ export default function ProfileSetupPage() {
 
   React.useEffect(() => {
     async function load2() {
+  
       const response = await getAllLeagues();
       setLeagues(response);
-
-      const profile = await getProfile(currentUser.id);
-      setCurrentProfile(profile);
+      
+      if (currentUser.id) {
+        const profile = await getProfile(currentUser.id);
+        setCurrentProfile(profile);
+      }
     }
     load2();
-  }, []);
-  console.log('current Profile', currentProfile);
+  }, [currentUser]);
+
+  // React.useEffect(() => {
+  //   async function loadUser() {
+  //     if (!currentUser) {
+  //       const user = await getUser();
+  //       setCurrentUser(user);
+  //     }
+  //   }
+  //   loadUser();
+  // }, []);
+
 
   const isStepOptional = (step) => {
     return step === 2;
@@ -83,7 +97,6 @@ export default function ProfileSetupPage() {
     if (activeStep === 2) {
       push('/home');
     }
-
     await updateProfile(currentProfile, currentProfile.id);
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -117,18 +130,17 @@ export default function ProfileSetupPage() {
     currentProfile.primary_team = team_id;
     currentProfile.favorite_teams = [team_id];
   }
-
   function handleStep2(league_id) {
-    // if (currentProfile.followed_leagues.includes(league_id)) {
-    //   const index = currentProfile.followed_leagues.findIndex(league_id);
-    //   currentProfile.followed_leagues.splice(
-    //     currentProfile.followed_leagues.findIndex(league_id),
-    //     1
-    //   );
-    // } else {
-    currentProfile.followed_leagues.push(league_id);
-    // }
-    console.log(currentProfile);
+    if (currentProfile.followed_leagues.includes(league_id)) {
+      const index = currentProfile.followed_leagues.findIndex((currentValue) => currentValue === league_id
+      );
+      currentProfile.followed_leagues.splice(
+        index,
+        1
+      );
+    } else {
+      currentProfile.followed_leagues.push(league_id);
+    }
   }
 
   return (
@@ -178,7 +190,7 @@ export default function ProfileSetupPage() {
                     type="radio"
                     name="team"
                     value={team.team_id}
-                    onChange={handleStep1(team.team_id)}
+                    onChange={(e)=>handleStep1(e.target.value)}
                   />
                   {team.team_name}
                   <span>
