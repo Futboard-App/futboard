@@ -2,7 +2,7 @@ import './App.css';
 import { useEffect } from 'react';
 import { useStateContext } from './StateProvider';
 import { getUser, getProfile, logout } from './services/supabase-utils';
-import { BrowserRouter as Router, Switch, Route, Redirect, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, NavLink, useHistory } from 'react-router-dom';
 import AuthPage from './components/pages/AuthPage';
 import ProfileSetupPage from './components/pages/ProfileSetupPage';
 import HomePage from './components/pages/HomePage';
@@ -10,10 +10,17 @@ import SearchPage from './components/pages/SearchPage';
 import LeaguePage from './components/pages/LeaguePage';
 import TeamPage from './components/pages/TeamPage';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 
 function App() {
-  const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
+  const { currentUser, setCurrentUser, currentProfile, setCurrentProfile, searchQuery, setSearchQuery } = useStateContext();
+  // const { push } = useHistory();
+
+  // function handleSearch(e) {
+  //   e.preventDefault();
+  //   push(`/search?q=${searchQuery}`);
+  // }
 
   useEffect(() => {
     async function load() {
@@ -35,8 +42,13 @@ function App() {
             {/* <img/> logo will go here onClick will bring user back to home */}
             {/*vvvvv this is here as we dont want to assume the user will know to just click the logo  vvvvv*/}
             <NavLink to='/home'>Dashboard</NavLink> 
-            <NavLink to='/search'>Search</NavLink>
+            
           </nav>
+          {/* onSubmit={handleSearch} */}
+          <form >
+            <TextField margin='normal' size='small' id="outlined-basic" label="Search" variant="outlined" value={searchQuery} type='search' onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </form>
           {currentUser && <Button onClick={logout}>logout</Button>}
         </header>
         
@@ -67,7 +79,7 @@ function App() {
             <Route exact path="home">
               {currentUser ? <HomePage /> : <Redirect to="/" />}
             </Route>
-            <Route exact path="search">
+            <Route exact path={`/search?q=${searchQuery}`}>
               {currentUser ? <SearchPage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="league/:id">
