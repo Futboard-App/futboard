@@ -143,6 +143,19 @@ export default function ProfileSetupPage() {
     }
   }
 
+  function handleStep3(team_id) {
+    if (currentProfile.favorite_teams.includes(team_id)) {
+      const index = currentProfile.favorite_teams.findIndex((currentValue) => currentValue === team_id
+      );
+      currentProfile.favorite_teams.splice(
+        index,
+        1
+      );
+    } else {
+      currentProfile.favorite_teams.push(team_id);
+    }
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -165,6 +178,14 @@ export default function ProfileSetupPage() {
       {activeStep === 0 && (
         <div className="setup-card">
           <InputLabel id="demo-simple-select-label">Select a league</InputLabel>
+          {/* <Select
+          id="timezone"
+          labelId="demo-simple-select-label"
+          label={'Select a timezone'}
+          value={timeZoneId}
+          onChange={handleTimezoneChange}>
+
+          </Select> */}
           <Select
             id="league"
             labelId="demo-simple-select-label"
@@ -247,7 +268,7 @@ export default function ProfileSetupPage() {
             {teams.map((team) => {
               return (
                 <label className="setup_card" key={team.team_id}>
-                  <input type="radio" value={team.team_id} />
+                  <input checked={(team) => {if (currentProfile.primary_team === team.team_id){return true;}}} type="checkbox" value={team.team_id} onChange={e => handleStep3(e.target.value)}/>
                   {team.team_name}
                   <span>
                     <img alt={team.team_name} src={team.team_logo} />
