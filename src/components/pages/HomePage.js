@@ -4,6 +4,7 @@ import { MenuItem, Select } from '@mui/material';
 import { getLeagueById } from '../../services/supabase-utils';
 import { useHistory } from 'react-router-dom';
 import LeagueFixtures from '../widgets/LeagueFixtues.js';
+import BroadageWidget from 'broadage-widget-react';
 
 import Header from '../Header';
 import './HomePage.scss';
@@ -11,7 +12,7 @@ import './HomePage.scss';
 export default function HomePage() {
   const { currentUser, currentProfile, searchQuery, setSearchQuery } = useStateContext();
   const [leagues, setLeagues] = useState([]);
-  const [leagueId, setLeagueId] = useState('');
+  const [leagueId, setLeagueId] = useState('2');
   const { push } = useHistory();
 
   async function getAllLeagueNames(leagueId) {
@@ -34,7 +35,6 @@ export default function HomePage() {
     <div>
       <Header />
       <div className="fixturesContainer">
-        hi
         <Select onChange={(e) => handleLeagueChange(e)}>
           {leagues.map((league) => {
             return (
@@ -44,17 +44,22 @@ export default function HomePage() {
             );
           })}
         </Select>
+        <BroadageWidget
+          requiredFields={{ 'tournamentId': leagueId }}
+          options={{ 
+            'webNotification': true,
+            'sportFilter': false,
+            'regionalMatchViewType': 'american',
+            'teamRedirectUrl': '/team/{teamId}'
+          }}
+          widget="soccerStandings"
+          bundleId="soccer-st"
+          accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
+          queryStringParse={{ tournamentId: 'tid' }}
+          className="widget-wrapper"
+        />
+
         
-        {/* <div
-          id="wg-api-football-fixtures"
-          data-host="v3.football.api-sports.io"
-          data-refresh="60"
-          data-league={leagueId}
-          data-season="2021"
-          data-key={process.env.REACT_APP_API_FOOTBALL_KEY}
-          data-show-errors="true"
-          className="api_football_loader fixtures"
-        /> */}
         <LeagueFixtures leagueId={leagueId} />
       </div>
     </div>
