@@ -37,20 +37,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header>
-          <nav>
-            {/* <img/> logo will go here onClick will bring user back to home */}
-            {/*vvvvv this is here as we dont want to assume the user will know to just click the logo  vvvvv*/}
-            <NavLink to='/home'>Dashboard</NavLink> 
-            
-          </nav>
-          {/* onSubmit={handleSearch} */}
-          <form >
-            <TextField margin='normal' size='small' id="outlined-basic" label="Search" variant="outlined" value={searchQuery} type='search' onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </form>
-          {currentUser && <Button onClick={logout}>logout</Button>}
-        </header>
         
         <main>
           <Switch>
@@ -76,16 +62,16 @@ function App() {
                 <Redirect to="/" />
               )}
             </Route>
-            <Route exact path="home">
+            <Route exact path="/home">
               {currentUser ? <HomePage /> : <Redirect to="/" />}
             </Route>
             <Route exact path={`/search?q=${searchQuery}`}>
               {currentUser ? <SearchPage /> : <Redirect to="/" />}
             </Route>
-            <Route exact path="league/:id">
+            <Route exact path="/league/:id">
               {currentUser ? <LeaguePage /> : <Redirect to="/" />}
             </Route>
-            <Route exact path="team/:id">
+            <Route exact path="/team/:id">
               {currentUser ? <TeamPage /> : <Redirect to="/" />}
             </Route>
           </Switch>
