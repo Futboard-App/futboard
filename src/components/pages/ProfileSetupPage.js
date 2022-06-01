@@ -138,7 +138,7 @@ export default function ProfileSetupPage() {
   function handleStep1(league_id) {
     currentProfile.favorite_league = league_id;
     currentProfile.followed_leagues = [league_id];
-    console.log(currentProfile);
+    // console.log(currentProfile);
   }
 
   function handleStep2(league_id) {
@@ -150,7 +150,7 @@ export default function ProfileSetupPage() {
     } else {
       currentProfile.followed_leagues.push(league_id);
     }
-    console.log(currentProfile);
+    // console.log(currentProfile);
   }
 
   return (

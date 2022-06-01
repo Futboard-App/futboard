@@ -36,7 +36,7 @@ export default function HomePage() {
     setLeagueId(e.target.value);
   }
 
-  console.log(leagueId);
+  // console.log(leagueId);
   return (
     <div>
       <Header />
