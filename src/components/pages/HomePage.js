@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useStateContext } from '../../StateProvider';
 import { useState, useEffect } from 'react';
 import { MenuItem, Select } from '@mui/material';
@@ -10,9 +11,14 @@ import Header from '../Header';
 import './HomePage.scss';
 
 export default function HomePage() {
-  const { currentUser, currentProfile, searchQuery, setSearchQuery } = useStateContext();
+  const {
+    // currentUser,
+    currentProfile,
+    // searchQuery,
+    // setSearchQuery
+  } = useStateContext();
   const [leagues, setLeagues] = useState([]);
-  const [leagueId, setLeagueId] = useState('2');
+  const [leagueId, setLeagueId] = useState(currentProfile.favorite_league);
   const { push } = useHistory();
 
   async function getAllLeagueNames(leagueId) {
@@ -20,6 +26,7 @@ export default function HomePage() {
     leagues.push(response);
     setLeagues([...leagues]);
   }
+
   useEffect(() => {
     currentProfile.followed_leagues.map((league) => {
       getAllLeagueNames(league);
@@ -30,27 +37,43 @@ export default function HomePage() {
     setLeagueId(e.target.value);
   }
 
-  console.log(leagueId);
   return (
     <div>
       <Header />
       <div className="fixturesContainer">
-        <Select onChange={(e) => handleLeagueChange(e)}>
-          {leagues.map((league) => {
-            return (
-              <MenuItem key={league.league_id} value={league.league_id}>
-                {league.league_name}
-              </MenuItem>
-            );
-          })}
-        </Select>
+        <div className="select-container">
+          <Select
+            onChange={(e) => handleLeagueChange(e)}
+            defaultValue={currentProfile.favorite_league}
+          >
+            {leagues.map((league) => {
+              return (
+                <MenuItem key={league.league_id} value={league.league_id}>
+                  {league.league_name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <Select
+            onChange={(e) => handleLeagueChange(e)}
+            defaultValue={currentProfile.favorite_league}
+          >
+            {leagues.map((league) => {
+              return (
+                <MenuItem key={league.league_id} value={league.league_id}>
+                  {league.league_name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </div>
         <BroadageWidget
-          requiredFields={{ 'tournamentId': leagueId }}
-          options={{ 
-            'webNotification': true,
-            'sportFilter': false,
-            'regionalMatchViewType': 'american',
-            'teamRedirectUrl': '/team/{teamId}'
+          requiredFields={{ tournamentId: leagueId }}
+          options={{
+            webNotification: true,
+            sportFilter: false,
+            regionalMatchViewType: 'american',
+            teamRedirectUrl: '/team/{teamId}',
           }}
           widget="soccerStandings"
           bundleId="soccer-st"
@@ -59,7 +82,6 @@ export default function HomePage() {
           className="widget-wrapper"
         />
 
-        
         <LeagueFixtures leagueId={leagueId} />
       </div>
     </div>

@@ -49,7 +49,7 @@ export async function getAllTeamsByLeague(id) {
 }
 
 export async function getAllLeagues() {
-  const response = await client.from('leagues').select();
+  const response = await client.from('leagues').select().order('league_id', { ascending: true });
   return checkError(response);
 }
 
