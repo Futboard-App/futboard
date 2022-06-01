@@ -3,7 +3,7 @@ import { useStateContext } from '../../StateProvider';
 import { useState, useEffect } from 'react';
 import { MenuItem, Select } from '@mui/material';
 import { getLeagueById } from '../../services/supabase-utils';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import LeagueFixtures from '../widgets/LeagueFixtues.js';
 import BroadageWidget from 'broadage-widget-react';
 
@@ -18,14 +18,15 @@ export default function HomePage() {
     // setSearchQuery
   } = useStateContext();
   const [leagues, setLeagues] = useState([]);
-  const [leagueId, setLeagueId] = useState('2');
-  // const { push } = useHistory();
+  const [leagueId, setLeagueId] = useState(currentProfile.favorite_league);
+  const { push } = useHistory();
 
   async function getAllLeagueNames(leagueId) {
     const response = await getLeagueById(leagueId);
     leagues.push(response);
     setLeagues([...leagues]);
   }
+
   useEffect(() => {
     currentProfile.followed_leagues.map((league) => {
       getAllLeagueNames(league);
@@ -36,20 +37,36 @@ export default function HomePage() {
     setLeagueId(e.target.value);
   }
 
-  // console.log(leagueId);
   return (
     <div>
       <Header />
       <div className="fixturesContainer">
-        <Select onChange={(e) => handleLeagueChange(e)}>
-          {leagues.map((league) => {
-            return (
-              <MenuItem key={league.league_id} value={league.league_id}>
-                {league.league_name}
-              </MenuItem>
-            );
-          })}
-        </Select>
+        <div className="select-container">
+          <Select
+            onChange={(e) => handleLeagueChange(e)}
+            defaultValue={currentProfile.favorite_league}
+          >
+            {leagues.map((league) => {
+              return (
+                <MenuItem key={league.league_id} value={league.league_id}>
+                  {league.league_name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <Select
+            onChange={(e) => handleLeagueChange(e)}
+            defaultValue={currentProfile.favorite_league}
+          >
+            {leagues.map((league) => {
+              return (
+                <MenuItem key={league.league_id} value={league.league_id}>
+                  {league.league_name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </div>
         <BroadageWidget
           requiredFields={{ tournamentId: leagueId }}
           options={{
