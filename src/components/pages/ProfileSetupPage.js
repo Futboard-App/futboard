@@ -31,10 +31,8 @@ export default function ProfileSetupPage() {
   const { push } = useHistory();
 
   // React.useEffect(() => {
-    
-  // }, [leagueID]);
-  
 
+  // }, [leagueID]);
 
   React.useEffect(() => {
     async function load() {
@@ -63,7 +61,6 @@ export default function ProfileSetupPage() {
   //   loadUser();
   // }, []);
 
-
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -78,7 +75,7 @@ export default function ProfileSetupPage() {
 
   const handleLeagueChange = (event) => {
     setLeagueID(event.target.value);
-  
+
     loadTeams(event.target.value);
   };
 
@@ -131,16 +128,13 @@ export default function ProfileSetupPage() {
     currentProfile.followed_leagues = [league_id];
     console.log(currentProfile);
   }
-  
-  
+
   function handleStep2(league_id) {
     if (currentProfile.followed_leagues.includes(league_id)) {
-      const index = currentProfile.followed_leagues.findIndex((currentValue) => currentValue === league_id
+      const index = currentProfile.followed_leagues.findIndex(
+        (currentValue) => currentValue === league_id
       );
-      currentProfile.followed_leagues.splice(
-        index,
-        1
-      );
+      currentProfile.followed_leagues.splice(index, 1);
     } else {
       currentProfile.followed_leagues.push(league_id);
     }
@@ -166,7 +160,7 @@ export default function ProfileSetupPage() {
           );
         })}
       </Stepper>
-      
+
       {activeStep === 0 && (
         <div>
           <div className="card_div">
@@ -174,7 +168,7 @@ export default function ProfileSetupPage() {
               return (
                 <label className="setup_card" key={league.league_id}>
                   <input
-                    name='leagues'
+                    name="leagues"
                     type="radio"
                     value={league.league_id}
                     onChange={(e) => handleStep1(e.target.value)}
@@ -193,35 +187,39 @@ export default function ProfileSetupPage() {
         <div>
           <div className="card_div">
             {leagues.map((league) => {
-              const currentprofile = currentProfile;
-              return (
-            { 
-              currentprofile.favorite_league === league.league_id ? <label className="setup_card" key={league.league_id}>
-            <input
-              checked='true'
-              type="checkbox"
-              value={league.league_id}
-              onChange={(e) => handleStep2(e.target.value)}
-            />
-            {league.league_name}
-            <span>
-              <img alt={league.league_name} src={league.league_logo} />
-            </span>
-          </label> 
-          :               
-              <label className="setup_card" key={league.league_id}>
-                  <input
-                    type="checkbox"
-                    value={league.league_id}
-                    onChange={(e) => handleStep2(e.target.value)}
-                  />
-                  {league.league_name}
-                  <span>
-                    <img alt={league.league_name} src={league.league_logo} />
-                  </span>
-                </label>
+              if (currentProfile.favorite_league === league.league_id) {
+                return (
+                  <label className="setup_card" key={league.league_id}>
+                    <input
+                      checked={true}
+                      disabled
+                      type="checkbox"
+                      value={league.league_id}
+                      onChange={(e) => handleStep2(e.target.value)}
+                    />
+                    {league.league_name}
+                    <span>
+                      <img alt={league.league_name} src={league.league_logo} />
+                    </span>
+                  </label>
+                );
+              } else {
+                return (
+                  <label className="setup_card" key={league.league_id}>
+                    <input
+                      type="checkbox"
+                      value={league.league_id}
+                      onChange={(e) => {
+                        handleStep2(e.target.value);
+                      }}
+                    />
+                    {league.league_name}
+                    <span>
+                      <img alt={league.league_name} src={league.league_logo} />
+                    </span>
+                  </label>
+                );
               }
-              );
             })}
           </div>
         </div>
