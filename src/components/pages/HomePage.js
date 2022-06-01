@@ -32,6 +32,9 @@ export default function HomePage() {
   async function getAllLeagueNames(leagueId) {
     const response = await getLeagueById(leagueId);
     leagues.push(response);
+    leagues.sort((a, b) => {
+      return a.league_id > b.league_id ? 1 : -1;
+    });
     setLeagues([...leagues]);
   }
 
@@ -87,6 +90,7 @@ export default function HomePage() {
               sportFilter: false,
               regionalMatchViewType: 'american',
               teamRedirectUrl: '/team/{teamId}',
+              redirectType: '_self',
             }}
             widget="soccerStandings"
             bundleId="soccer-st"
@@ -105,6 +109,8 @@ export default function HomePage() {
               regionalMatchViewType: 'american',
               matchInfo: 'below',
               teamRedirectUrl: '/team/{teamId}',
+              matchRedirectUrl: '/match/{matchId}',
+              redirectType: '_self',
             }}
             widget="soccerFixture"
             bundleId="soccer-fx"
@@ -121,7 +127,6 @@ export default function HomePage() {
               webNotification: true,
               sportFilter: false,
               regionalMatchViewType: 'american',
-              teamRedirectUrl: '/team/{teamId}',
             }}
             widget="soccerLeaderboardGoals"
             bundleId="soccer-lbg"
@@ -138,7 +143,6 @@ export default function HomePage() {
               webNotification: true,
               sportFilter: false,
               regionalMatchViewType: 'american',
-              teamRedirectUrl: '/team/{teamId}',
             }}
             widget="soccerLeaderboardAssists"
             bundleId="soccer-lba"
@@ -155,7 +159,6 @@ export default function HomePage() {
               webNotification: true,
               sportFilter: false,
               regionalMatchViewType: 'american',
-              teamRedirectUrl: '/team/{teamId}',
             }}
             widget="soccerLeaderboardCards"
             bundleId="soccer-lbc"
