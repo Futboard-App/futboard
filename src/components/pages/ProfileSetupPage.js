@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -7,13 +8,18 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {
   getAllLeagues,
-  getAllTeamsByLeague,
+  // getAllTeamsByLeague,
   logout,
   getProfile,
   updateProfile,
-  getUser,
+  // getUser,
 } from '../../services/supabase-utils';
-import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Grid,
+  // InputLabel,
+  // MenuItem,
+  // Select
+} from '@mui/material';
 import { useStateContext } from '../../StateProvider';
 import './profile-setup.scss';
 import { useHistory } from 'react-router-dom';
@@ -23,11 +29,16 @@ const steps = ['Select favorite league', 'Select other leagues to follow'];
 export default function ProfileSetupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [teams, setTeams] = React.useState([]);
-  const [leagueID, setLeagueID] = React.useState(61);
+  // const [teams, setTeams] = React.useState([]);
+  // const [leagueID, setLeagueID] = React.useState(61);
   const [leagues, setLeagues] = React.useState([]);
-  const [profileForm, setProfileForm] = React.useState({});
-  const { currentProfile, setCurrentProfile, currentUser, setCurrentUser } = useStateContext();
+  // const [profileForm, setProfileForm] = React.useState({});
+  const {
+    currentProfile,
+    setCurrentProfile,
+    currentUser,
+    // setCurrentUser
+  } = useStateContext();
   const { push } = useHistory();
 
   // React.useEffect(() => {
@@ -35,10 +46,10 @@ export default function ProfileSetupPage() {
   // }, [leagueID]);
 
   React.useEffect(() => {
-    async function load() {
-      const response = await getAllTeamsByLeague(leagueID);
-      setTeams(response);
-    }
+    // async function load() {
+    //   const response = await getAllTeamsByLeague(leagueID);
+    //   setTeams(response);
+    // }
     async function load2() {
       const response = await getAllLeagues();
       setLeagues(response);
@@ -47,9 +58,9 @@ export default function ProfileSetupPage() {
         setCurrentProfile(profile);
       }
     }
-    load();
+    // load();
     load2();
-  }, [leagueID]);
+  }, []);
 
   // React.useEffect(() => {
   //   async function loadUser() {
@@ -68,16 +79,17 @@ export default function ProfileSetupPage() {
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
-  async function loadTeams(leagueID) {
-    const response = await getAllTeamsByLeague(leagueID);
-    setTeams(response);
-  }
 
-  const handleLeagueChange = (event) => {
-    setLeagueID(event.target.value);
+  // async function loadTeams(leagueID) {
+  //   const response = await getAllTeamsByLeague(leagueID);
+  //   setTeams(response);
+  // }
 
-    loadTeams(event.target.value);
-  };
+  // const handleLeagueChange = (event) => {
+  //   setLeagueID(event.target.value);
+
+  //   loadTeams(event.target.value);
+  // };
 
   const handleNext = async () => {
     let newSkipped = skipped;
@@ -119,9 +131,9 @@ export default function ProfileSetupPage() {
     });
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  // const handleReset = () => {
+  //   setActiveStep(0);
+  // };
 
   function handleStep1(league_id) {
     currentProfile.favorite_league = league_id;
