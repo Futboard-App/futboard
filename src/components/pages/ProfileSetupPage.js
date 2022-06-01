@@ -18,7 +18,7 @@ import { useStateContext } from '../../StateProvider';
 import './profile-setup.scss';
 import { useHistory } from 'react-router-dom';
 
-const steps = ['Select Favorite Team', 'Select Leagues to Follow', 'Other Favorite Teams'];
+const steps = ['Select favorite league', 'Select other leagues to follow'];
 
 export default function ProfileSetupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -30,27 +30,28 @@ export default function ProfileSetupPage() {
   const { currentProfile, setCurrentProfile, currentUser, setCurrentUser } = useStateContext();
   const { push } = useHistory();
 
+  // React.useEffect(() => {
+    
+  // }, [leagueID]);
+  
+
+
   React.useEffect(() => {
     async function load() {
       const response = await getAllTeamsByLeague(leagueID);
       setTeams(response);
     }
-    load();
-  }, [leagueID]);
-
-  React.useEffect(() => {
     async function load2() {
-  
       const response = await getAllLeagues();
       setLeagues(response);
-      
       if (currentUser.id) {
         const profile = await getProfile(currentUser.id);
         setCurrentProfile(profile);
       }
     }
+    load();
     load2();
-  }, [currentUser]);
+  }, [leagueID]);
 
   // React.useEffect(() => {
   //   async function loadUser() {
@@ -64,20 +65,20 @@ export default function ProfileSetupPage() {
 
 
   const isStepOptional = (step) => {
-    return step === 2;
+    return step === 1;
   };
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
+  async function loadTeams(leagueID) {
+    const response = await getAllTeamsByLeague(leagueID);
+    setTeams(response);
+  }
 
   const handleLeagueChange = (event) => {
     setLeagueID(event.target.value);
-
-    async function loadTeams(leagueID) {
-      const response = await getAllTeamsByLeague(leagueID);
-      setTeams(response);
-    }
+  
     loadTeams(event.target.value);
   };
 
@@ -89,7 +90,6 @@ export default function ProfileSetupPage() {
     }
     if (activeStep === 0) {
       currentProfile.step_1_complete = true;
-      currentProfile.followed_leagues = [];
     }
     if (activeStep === 1) {
       currentProfile.step_2_complete = true;
@@ -126,10 +126,13 @@ export default function ProfileSetupPage() {
     setActiveStep(0);
   };
 
-  function handleStep1(team_id) {
-    currentProfile.primary_team = team_id;
-    currentProfile.favorite_teams = [team_id];
+  function handleStep1(league_id) {
+    currentProfile.favorite_league = league_id;
+    currentProfile.followed_leagues = [league_id];
+    console.log(currentProfile);
   }
+  
+  
   function handleStep2(league_id) {
     if (currentProfile.followed_leagues.includes(league_id)) {
       const index = currentProfile.followed_leagues.findIndex((currentValue) => currentValue === league_id
@@ -141,19 +144,7 @@ export default function ProfileSetupPage() {
     } else {
       currentProfile.followed_leagues.push(league_id);
     }
-  }
-
-  function handleStep3(team_id) {
-    if (currentProfile.favorite_teams.includes(team_id)) {
-      const index = currentProfile.favorite_teams.findIndex((currentValue) => currentValue === team_id
-      );
-      currentProfile.favorite_teams.splice(
-        index,
-        1
-      );
-    } else {
-      currentProfile.favorite_teams.push(team_id);
-    }
+    console.log(currentProfile);
   }
 
   return (
@@ -175,64 +166,18 @@ export default function ProfileSetupPage() {
           );
         })}
       </Stepper>
+      
       {activeStep === 0 && (
-        <div className="setup-card">
-          <InputLabel id="demo-simple-select-label">Select a league</InputLabel>
-          {/* <Select
-          id="timezone"
-          labelId="demo-simple-select-label"
-          label={'Select a timezone'}
-          value={timeZoneId}
-          onChange={handleTimezoneChange}>
-
-          </Select> */}
-          <Select
-            id="league"
-            labelId="demo-simple-select-label"
-            label={'Select a league'}
-            value={leagueID}
-            onChange={handleLeagueChange}
-          >
-            {leagues
-              .filter((item) => item.league_type === 'League')
-              .map((league) => {
-                return (
-                  <MenuItem key={league.supabase_id} value={league.league_id}>
-                    {league.league_name}
-                  </MenuItem>
-                );
-              })}
-          </Select>
-          <div className="card_div">
-            {teams.map((team) => {
-              return (
-                <label className="setup_card" key={team.team_id}>
-                  <input
-                    type="radio"
-                    name="team"
-                    value={team.team_id}
-                    onChange={(e)=>handleStep1(e.target.value)}
-                  />
-                  {team.team_name}
-                  <span>
-                    <img alt={team.team_name} src={team.team_logo} />
-                  </span>
-                </label>
-              );
-            })}
-          </div>
-        </div>
-      )}
-      {activeStep === 1 && (
         <div>
           <div className="card_div">
             {leagues.map((league) => {
               return (
                 <label className="setup_card" key={league.league_id}>
                   <input
-                    type="checkbox"
+                    name='leagues'
+                    type="radio"
                     value={league.league_id}
-                    onChange={(e) => handleStep2(e.target.value)}
+                    onChange={(e) => handleStep1(e.target.value)}
                   />
                   {league.league_name}
                   <span>
@@ -244,36 +189,38 @@ export default function ProfileSetupPage() {
           </div>
         </div>
       )}
-      {activeStep === 2 && (
+      {activeStep === 1 && (
         <div>
-          <InputLabel id="demo-simple-select-label">Select a league</InputLabel>
-          <Select
-            id="league"
-            labelId="demo-simple-select-label"
-            label={'Select a league'}
-            value={leagueID}
-            onChange={handleLeagueChange}
-          >
-            {leagues
-              .filter((item) => item.league_type === 'League')
-              .map((league) => {
-                return (
-                  <MenuItem key={league.supabase_id} value={league.league_id}>
-                    {league.league_name}
-                  </MenuItem>
-                );
-              })}
-          </Select>
           <div className="card_div">
-            {teams.map((team) => {
+            {leagues.map((league) => {
+              const currentprofile = currentProfile;
               return (
-                <label className="setup_card" key={team.team_id}>
-                  <input checked={(team) => {if (currentProfile.primary_team === team.team_id){return true;}}} type="checkbox" value={team.team_id} onChange={e => handleStep3(e.target.value)}/>
-                  {team.team_name}
+            { 
+              currentprofile.favorite_league === league.league_id ? <label className="setup_card" key={league.league_id}>
+            <input
+              checked='true'
+              type="checkbox"
+              value={league.league_id}
+              onChange={(e) => handleStep2(e.target.value)}
+            />
+            {league.league_name}
+            <span>
+              <img alt={league.league_name} src={league.league_logo} />
+            </span>
+          </label> 
+          :               
+              <label className="setup_card" key={league.league_id}>
+                  <input
+                    type="checkbox"
+                    value={league.league_id}
+                    onChange={(e) => handleStep2(e.target.value)}
+                  />
+                  {league.league_name}
                   <span>
-                    <img alt={team.team_name} src={team.team_logo} />
+                    <img alt={league.league_name} src={league.league_logo} />
                   </span>
                 </label>
+              }
               );
             })}
           </div>
