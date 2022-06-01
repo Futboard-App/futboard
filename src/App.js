@@ -82,10 +82,10 @@ function App() {
             <Route exact path="/home">
               {currentUser ? <HomePage /> : <Redirect to="/" />}
             </Route>
-            <Route exact path={`/search?q=${searchQuery}`}>
+            {/* <Route exact path={`/search?q=${searchQuery}`}>
               {currentUser ? <SearchPage /> : <Redirect to="/" />}
-            </Route>
-            <Route exact path="/league/:id">
+            </Route> */}
+            <Route exact path="/match/:id">
               {currentUser ? <LeaguePage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/team/:id">
