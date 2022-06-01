@@ -1,20 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
 import { useEffect } from 'react';
 import { useStateContext } from './StateProvider';
-import { getUser, getProfile, logout } from './services/supabase-utils';
-import { BrowserRouter as Router, Switch, Route, Redirect, NavLink, useHistory } from 'react-router-dom';
+import {
+  getUser,
+  // getProfile,
+  // logout
+} from './services/supabase-utils';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  // NavLink,
+  // useHistory,
+} from 'react-router-dom';
 import AuthPage from './components/pages/AuthPage';
 import ProfileSetupPage from './components/pages/ProfileSetupPage';
 import HomePage from './components/pages/HomePage';
 import SearchPage from './components/pages/SearchPage';
 import LeaguePage from './components/pages/LeaguePage';
 import TeamPage from './components/pages/TeamPage';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-
+// import Button from '@mui/material/Button';
+// import TextField from '@mui/material/TextField';
 
 function App() {
-  const { currentUser, setCurrentUser, currentProfile, setCurrentProfile, searchQuery, setSearchQuery } = useStateContext();
+  const {
+    currentUser,
+    setCurrentUser,
+    currentProfile,
+    // setCurrentProfile,
+    searchQuery,
+    // setSearchQuery,
+  } = useStateContext();
   // const { push } = useHistory();
 
   // function handleSearch(e) {
@@ -37,7 +55,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        
         <main>
           <Switch>
             <Route exact path="/">
