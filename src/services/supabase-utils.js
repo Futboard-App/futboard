@@ -54,6 +54,6 @@ export async function getAllLeagues() {
 }
 
 export async function getLeagueById(id) {
-  const response = await client.from('leagues').select().match({ league_id: id });
-  return response.data.league_name;
+  const response = await client.from('leagues').select().match({ league_id: id }).single();
+  return checkError(response);
 }
