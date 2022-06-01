@@ -1,10 +1,12 @@
 import { useParams } from 'react-router-dom';
 import BroadageWidget from 'broadage-widget-react';
+import Header from '../Header';
 
 
 export default function TeamPage() {
   const { id } = useParams();
   return <div>
+    <Header />
     <BroadageWidget
       requiredFields={{ teamId: id }}
       options={{
@@ -13,7 +15,6 @@ export default function TeamPage() {
         regionalMatchViewType: 'american',
         matchRedirectUrl: '/match/{matchId}',
         redirectType: '_self'
-
       }}
       widget="soccerTeamSchedule"
       bundleId="soccer-ts"
