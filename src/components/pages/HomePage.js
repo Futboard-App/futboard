@@ -23,7 +23,7 @@ export default function HomePage() {
     currentProfile.followed_leagues.map((league) => {
       getAllLeagueNames(league);
     });
-  }, [leagueId]);
+  }, []);
 
   function handleLeagueChange(e) {
     setLeagueId(e.target.value);
@@ -44,6 +44,7 @@ export default function HomePage() {
             );
           })}
         </Select>
+        
         {/* <div
           id="wg-api-football-fixtures"
           data-host="v3.football.api-sports.io"

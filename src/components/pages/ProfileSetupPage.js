@@ -30,27 +30,28 @@ export default function ProfileSetupPage() {
   const { currentProfile, setCurrentProfile, currentUser, setCurrentUser } = useStateContext();
   const { push } = useHistory();
 
+  // React.useEffect(() => {
+    
+  // }, [leagueID]);
+  
+
+
   React.useEffect(() => {
     async function load() {
       const response = await getAllTeamsByLeague(leagueID);
       setTeams(response);
     }
-    load();
-  }, [leagueID]);
-
-  React.useEffect(() => {
     async function load2() {
-  
       const response = await getAllLeagues();
       setLeagues(response);
-      
       if (currentUser.id) {
         const profile = await getProfile(currentUser.id);
         setCurrentProfile(profile);
       }
     }
+    load();
     load2();
-  }, [currentUser]);
+  }, [leagueID]);
 
   // React.useEffect(() => {
   //   async function loadUser() {

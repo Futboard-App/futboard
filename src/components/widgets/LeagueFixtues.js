@@ -1,6 +1,6 @@
 
 export default function LeagueFixtures({ leagueId }) {
-  
+  console.log(leagueId);
   return (
     <div id="wg-api-football-fixtures"
       data-host="v3.football.api-sports.io"
