@@ -2,27 +2,17 @@
 import './App.css';
 import { useEffect } from 'react';
 import { useStateContext } from './StateProvider';
-import {
-  getUser,
-} from './services/supabase-utils';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { getUser } from './services/supabase-utils';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import AuthPage from './components/pages/AuthPage';
 import ProfileSetupPage from './components/pages/ProfileSetupPage';
 import HomePage from './components/pages/HomePage';
 import MatchPage from './components/pages/MatchPage';
 import TeamPage from './components/pages/TeamPage';
+import AboutUsPage from './components/pages/AboutUsPage';
 
 function App() {
-  const {
-    currentUser,
-    setCurrentUser,
-    currentProfile,
-  } = useStateContext();
+  const { currentUser, setCurrentUser, currentProfile } = useStateContext();
 
   useEffect(() => {
     async function load() {
@@ -37,6 +27,9 @@ function App() {
       <div className="App">
         <main>
           <Switch>
+            <Route exact path="/aboutus">
+              <AboutUsPage />
+            </Route>
             <Route exact path="/">
               {currentUser ? (
                 <Redirect to="/profile-setup" />
