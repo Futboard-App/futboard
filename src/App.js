@@ -2,15 +2,8 @@
 import './App.css';
 import { useEffect } from 'react';
 import { useStateContext } from './StateProvider';
-import {
-  getUser,
-} from './services/supabase-utils';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { getUser } from './services/supabase-utils';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import AuthPage from './components/pages/AuthPage';
 import ProfileSetupPage from './components/pages/ProfileSetupPage';
 import HomePage from './components/pages/HomePage';
@@ -18,11 +11,7 @@ import MatchPage from './components/pages/MatchPage';
 import TeamPage from './components/pages/TeamPage';
 
 function App() {
-  const {
-    currentUser,
-    setCurrentUser,
-    currentProfile,
-  } = useStateContext();
+  const { currentUser, setCurrentUser, currentProfile } = useStateContext();
 
   useEffect(() => {
     async function load() {

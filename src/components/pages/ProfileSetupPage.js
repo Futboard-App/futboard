@@ -25,8 +25,8 @@ import { useHistory } from 'react-router-dom';
 
 const steps = ['Select favorite league', 'Select other leagues to follow'];
 
-export default function ProfileSetupPage() {
-  const [activeStep, setActiveStep] = React.useState(0);
+export default function ProfileSetupPage({ step }) {
+  const [activeStep, setActiveStep] = React.useState(step);
   const [skipped, setSkipped] = React.useState(new Set());
   const [leagues, setLeagues] = React.useState([]);
   const {
