@@ -17,7 +17,6 @@ export default function MatchPage() {
       const stadiumName = matchInfo.current._reactInternals.child.stateNode.querySelectorAll(
         '.broadage-match-info-name'
       )[2];
-      console.log(stadiumName);
       setStadiumName(stadiumName);
     }
     async function yelp() {
