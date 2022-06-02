@@ -14,6 +14,7 @@ export default function TeamPage() {
         sportFilter: false,
         regionalMatchViewType: 'american',
         matchRedirectUrl: '/match/{matchId}',
+        theme: 'black',
         redirectType: '_self'
       }}
       widget="soccerTeamSchedule"
@@ -29,6 +30,7 @@ export default function TeamPage() {
         regionalMatchViewType: 'american',
         teamInfo: false,
         tournamentNavigationType: 'navigation',
+        theme: 'black',
       }}
       widget="soccerTeamGoalsLeaderboard"
       bundleId="soccer-tglb"
