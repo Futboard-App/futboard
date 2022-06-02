@@ -80,12 +80,13 @@ export default function HomePage() {
   }
 
   return (
-    <div>
+    <div className='home-page'>
       <Header />
       <div className="fixturesContainer">
         <div className="select-container">
           {/* select league */}
           <Select
+            sx={{ background: 'lightgrey' }}
             onChange={(e) => handleLeagueChange(e)}
             defaultValue={currentProfile.favorite_league}
           >
@@ -98,7 +99,7 @@ export default function HomePage() {
             })}
           </Select>
           {/* select view */}
-          <Select onChange={(e) => handleViewChange(e)} defaultValue={0}>
+          <Select sx={{ background: 'lightgrey' }} onChange={(e) => handleViewChange(e)} defaultValue={0}>
             {viewOptions.map((viewOption, index) => {
               return (
                 <MenuItem key={viewOption} value={index}>

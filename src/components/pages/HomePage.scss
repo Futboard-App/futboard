@@ -1,8 +1,11 @@
-.fixtures{
-    height: 100px;
-}
+.home-page {
+    background-color: #1e1b1e;
+        .fixtures{
+        height: 100px;
+    }
 
-.select-container {
-    display: flex;
-    justify-content: space-around;
+    .select-container {
+        display: flex;
+        justify-content: space-around;
+    }
 }

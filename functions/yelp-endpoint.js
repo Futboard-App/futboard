@@ -7,7 +7,7 @@ const headers = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
 };
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   try {
     const response = await fetch(
       `https://api.yelp.com/v3/businesses/search?location=${event.queryStringParameters.stadium}`,
@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
       }
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
 
     return {
       statusCode: 200,
@@ -26,7 +26,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ data }),
     };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Failed fetching data' }),
