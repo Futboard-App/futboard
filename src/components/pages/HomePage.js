@@ -91,6 +91,7 @@ export default function HomePage() {
               regionalMatchViewType: 'american',
               teamRedirectUrl: '/team/{teamId}',
               redirectType: '_self',
+              theme: 'black',
             }}
             widget="soccerStandings"
             bundleId="soccer-st"
@@ -111,6 +112,7 @@ export default function HomePage() {
               teamRedirectUrl: '/team/{teamId}',
               matchRedirectUrl: '/match/{matchId}',
               redirectType: '_self',
+              theme: 'black',
             }}
             widget="soccerFixture"
             bundleId="soccer-fx"
@@ -127,6 +129,7 @@ export default function HomePage() {
               webNotification: true,
               sportFilter: false,
               regionalMatchViewType: 'american',
+              theme: 'black',
             }}
             widget="soccerLeaderboardGoals"
             bundleId="soccer-lbg"
@@ -143,6 +146,7 @@ export default function HomePage() {
               webNotification: true,
               sportFilter: false,
               regionalMatchViewType: 'american',
+              theme: 'black',
             }}
             widget="soccerLeaderboardAssists"
             bundleId="soccer-lba"
@@ -159,6 +163,7 @@ export default function HomePage() {
               webNotification: true,
               sportFilter: false,
               regionalMatchViewType: 'american',
+              theme: 'black',
             }}
             widget="soccerLeaderboardCards"
             bundleId="soccer-lbc"
