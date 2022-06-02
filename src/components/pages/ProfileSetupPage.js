@@ -30,6 +30,7 @@ export default function ProfileSetupPage({ step }) {
   const [activeStep, setActiveStep] = React.useState(step);
   const [skipped, setSkipped] = React.useState(new Set());
   const [leagues, setLeagues] = React.useState([]);
+  const [nextButtonOn, setNextButtonOn] = React.useState(false);
   const { currentProfile, setCurrentProfile, currentUser } = useStateContext();
   const { push } = useHistory();
 
@@ -78,6 +79,7 @@ export default function ProfileSetupPage({ step }) {
   function handleStep1(league_id) {
     currentProfile.favorite_league = league_id;
     currentProfile.followed_leagues = [league_id];
+    setNextButtonOn(true);
   }
 
   function handleStep2(league_id) {
@@ -100,7 +102,7 @@ export default function ProfileSetupPage({ step }) {
             const stepProps = {};
             const labelProps = {};
             return (
-              <Step key={label} {...stepProps}>
+              <Step key={label} {...stepProps} className="step">
                 <StepLabel {...labelProps}>{label}</StepLabel>
               </Step>
             );
@@ -148,7 +150,7 @@ export default function ProfileSetupPage({ step }) {
           </div>
         )}
         {activeStep === 1 && (
-          <div>
+          <div className="card_container">
             <div className="card_div">
               {leagues.map((league) => {
                 if (currentProfile.favorite_league === league.league_id) {
@@ -200,9 +202,15 @@ export default function ProfileSetupPage({ step }) {
             Back
           </Button>
           <Box sx={{ flex: '1 1 auto' }} />
-          <Button onClick={handleNext}>
-            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-          </Button>
+          {nextButtonOn ? (
+            <Button onClick={handleNext}>
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          ) : (
+            <Button disabled onClick={handleNext}>
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          )}
         </Grid>
       </Box>
     </div>

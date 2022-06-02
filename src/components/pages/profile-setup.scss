@@ -12,31 +12,96 @@
   z-index: 1;
   border: 3px solid #ffaa0d;
   img{
+    margin-top: 5px;
     width: 150px;
     height: 150px;
   }
   :hover{
     transform: scale(1.01);
   }
+  input{
+    margin-bottom: 5px
+  }
 }
-
 .card_div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  overflow: scroll;
-  height: calc(100vh - 200px);
+  overflow-y: scroll;
+  height: calc(100vh - 204px);
   margin-top: 10px;
 }
-
 .stepper {
-  margin-top: 5px;
+  padding: 5px 10px;
   z-index: 1;
+  background-color: #1e1b1e;
+  .step .Mui-disabled span {
+    color: #ffaa0d60;
+  }
+  .step .Mui-disabled .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root {
+    color: #ffaa0d60;
+  }
+  .step span {
+    color: #ffaa0d;
+  }
+  .step .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root {
+    color: #ffaa0d;
+  }
+  .step .css-117w1su-MuiStepIcon-text {
+    fill:#1e1b1e
+  }
+  .Mui-disabled .css-z7uhs0-MuiStepConnector-line {
+    border-color: #ffaa0d60;
+  }
+  .css-z7uhs0-MuiStepConnector-line {
+    border-color: #ffaa0d;
+  }
+}
+.card_container {
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 14px;
+  border: 1px solid #ffaa0d;
+  border-radius: 10px;
+  background-color: #1e1b1e;
+  margin: 0px 10px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  // ::-webkit-scrollbar-track {
+  //   background-color: #1e1b1e;
+  // }
+  // ::-webkit-scrollbar-thumb {
+  //   background-color: #ffaa0d;
+  // }
+  // ::-webkit-scrollbar-thumb:hover {
+  //   display: none;
+  // }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.card_container {
-  // padding-top: 5px;
-  background-color: black;
+.css-1hbmzt3-MuiGrid-root {
+  background-color: #1e1b1e;
+  justify-content: center;
+  .css-11qjisw {
+    flex: 0;
+    width: 0;
+  }
+  button{
+    margin: 0px 50px;
+  }
+  .css-a1sg1c-MuiButtonBase-root-MuiButton-root.Mui-disabled, .css-1e6y48t-MuiButtonBase-root-MuiButton-root.Mui-disabled{
+    color: #ffaa0d60;
+  }
+  .css-1e6y48t-MuiButtonBase-root-MuiButton-root, .css-a1sg1c-MuiButtonBase-root-MuiButton-root{
+    color:#ffaa0d;
+  }
+}
+
+.profile_setup {
+  background-color: #1e1b1e;
 }
