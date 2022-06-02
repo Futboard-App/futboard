@@ -1,9 +1,9 @@
+/* eslint-disable no-debugger */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useStateContext } from '../../StateProvider';
 import { useState, useEffect } from 'react';
 import { MenuItem, Select } from '@mui/material';
 import { getLeagueById, getUser, getProfile } from '../../services/supabase-utils';
-// import { useHistory } from 'react-router-dom';
 import LeagueFixtures from '../widgets/LeagueFixtues.js';
 import BroadageWidget from 'broadage-widget-react';
 
@@ -11,10 +11,9 @@ import Header from '../Header';
 import './HomePage.scss';
 
 export default function HomePage() {
-  const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
+  const { currentProfile, setCurrentProfile } = useStateContext();
   const [leagues, setLeagues] = useState([]);
   const [leagueId, setLeagueId] = useState(currentProfile.favorite_league);
-  // const { push } = useHistory();
   const viewOptions = [
     'Standings',
     'Matches',
@@ -24,52 +23,34 @@ export default function HomePage() {
   ];
   const [view, setView] = useState('Standings');
 
-  useEffect(() => {
-    const getUser = localStorage.getItem('user');
-    const getProfile = localStorage.getItem('profile');
-    const user = JSON.parse(getUser);
-    const profile = JSON.parse(getProfile);
-    setCurrentProfile(user);
-    setCurrentProfile(profile);
-  }, []);
-
-  useEffect(() => {
-    async function loadUser() {
-      const user = await getUser();
-      setCurrentUser(user);
-    }
-    async function loadProfile() {
-      const user = await getUser();
-      const profile = await getProfile(user.user.id);
-      setCurrentProfile(profile);
-    }
-    loadUser();
-    if (currentUser) {
-      loadProfile();
-    }
-  }, []);
-
-  useEffect(() => {
-    const user = JSON.stringify(currentUser);
-    const profile = JSON.stringify(currentProfile);
-    localStorage.setItem('user', user);
-    localStorage.setItem('profile', profile);
-  }, []);
-
   async function getAllLeagueNames(leagueId) {
     const response = await getLeagueById(leagueId);
-    leagues.push(response);
-    leagues.sort((a, b) => {
-      return a.league_id > b.league_id ? 1 : -1;
-    });
-    setLeagues([...leagues]);
+    if (leagues.length < currentProfile.followed_leagues.length) {
+      leagues.push(response);
+      leagues.sort((a, b) => {
+        return a.league_id > b.league_id ? 1 : -1;
+      });
+      setLeagues([...leagues]);
+    }
   }
 
   useEffect(() => {
-    currentProfile.followed_leagues.map((league) => {
-      getAllLeagueNames(league);
-    });
+    async function loadProfileHome() {
+      const user = await getUser();
+      const profile = await getProfile(user.user.id);
+      setCurrentProfile(profile);
+      setLeagueId(profile.favorite_league);
+    }
+    loadProfileHome();
   }, []);
+
+  useEffect(() => {
+    if (currentProfile.username) {
+      currentProfile.followed_leagues.map((league) => {
+        getAllLeagueNames(league);
+      });
+    }
+  }, [currentProfile]);
 
   function handleLeagueChange(e) {
     setLeagueId(e.target.value);
@@ -80,26 +61,32 @@ export default function HomePage() {
   }
 
   return (
-    <div className='home-page'>
+    <div className="home-page">
       <Header />
       <div className="fixturesContainer">
         <div className="select-container">
           {/* select league */}
+          {currentProfile.username && (
+            <Select
+              sx={{ background: 'lightgrey' }}
+              onChange={(e) => handleLeagueChange(e)}
+              defaultValue={currentProfile.favorite_league}
+            >
+              {leagues.map((league) => {
+                return (
+                  <MenuItem key={league.league_id} value={league.league_id}>
+                    {league.league_name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          )}
+          {/* select view */}
           <Select
             sx={{ background: 'lightgrey' }}
-            onChange={(e) => handleLeagueChange(e)}
-            defaultValue={currentProfile.favorite_league}
+            onChange={(e) => handleViewChange(e)}
+            defaultValue={0}
           >
-            {leagues.map((league) => {
-              return (
-                <MenuItem key={league.league_id} value={league.league_id}>
-                  {league.league_name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-          {/* select view */}
-          <Select sx={{ background: 'lightgrey' }} onChange={(e) => handleViewChange(e)} defaultValue={0}>
             {viewOptions.map((viewOption, index) => {
               return (
                 <MenuItem key={viewOption} value={index}>
