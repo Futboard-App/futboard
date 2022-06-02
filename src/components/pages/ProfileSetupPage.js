@@ -22,6 +22,7 @@ import {
 import { useStateContext } from '../../StateProvider';
 import './profile-setup.scss';
 import { useHistory } from 'react-router-dom';
+import Header from '../Header.js';
 
 const steps = ['Select favorite league', 'Select other leagues to follow'];
 
@@ -91,115 +92,119 @@ export default function ProfileSetupPage({ step }) {
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label) => {
-          const stepProps = {};
-          const labelProps = {};
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
+    <div className="profile_setup">
+      <Header profileSetup={true} />
+      <Box sx={{ width: '100%' }}>
+        <Stepper activeStep={activeStep} className="stepper">
+          {steps.map((label) => {
+            const stepProps = {};
+            const labelProps = {};
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
 
-      {activeStep === 0 && (
-        <div>
-          <div className="card_div">
-            {leagues.map((league) => {
-              if (currentProfile.favorite_league === league.league_id) {
-                return (
-                  <label className="setup_card" key={league.league_id}>
-                    <input
-                      name="leagues"
-                      checked
-                      type="radio"
-                      value={league.league_id}
-                      onChange={(e) => handleStep1(e.target.value)}
-                    />
-                    {league.league_name}
-                    <span>
-                      <img alt={league.league_name} src={league.league_logo} />
-                    </span>
-                  </label>
-                );
-              } else {
-                return (
-                  <label className="setup_card" key={league.league_id}>
-                    <input
-                      name="leagues"
-                      type="radio"
-                      value={league.league_id}
-                      onChange={(e) => handleStep1(e.target.value)}
-                    />
-                    {league.league_name}
-                    <span>
-                      <img alt={league.league_name} src={league.league_logo} />
-                    </span>
-                  </label>
-                );
-              }
-            })}
+        {activeStep === 0 && (
+          <div className="card_container">
+            <div className="card_div">
+              {leagues.map((league) => {
+                if (currentProfile.favorite_league === league.league_id) {
+                  return (
+                    <label className="setup_card" key={league.league_id}>
+                      <input
+                        name="leagues"
+                        checked
+                        type="radio"
+                        value={league.league_id}
+                        onChange={(e) => handleStep1(e.target.value)}
+                      />
+                      {league.league_name}
+                      <span>
+                        <img alt={league.league_name} src={league.league_logo} />
+                      </span>
+                    </label>
+                  );
+                } else {
+                  return (
+                    <label className="setup_card" key={league.league_id}>
+                      <input
+                        name="leagues"
+                        type="radio"
+                        value={league.league_id}
+                        onChange={(e) => handleStep1(e.target.value)}
+                      />
+                      {league.league_name}
+                      <span>
+                        <img alt={league.league_name} src={league.league_logo} />
+                      </span>
+                    </label>
+                  );
+                }
+              })}
+            </div>
           </div>
-        </div>
-      )}
-      {activeStep === 1 && (
-        <div>
-          <div className="card_div">
-            {leagues.map((league) => {
-              if (currentProfile.favorite_league === league.league_id) {
-                return (
-                  <label className="setup_card" key={league.league_id}>
-                    <input
-                      checked
-                      disabled
-                      type="checkbox"
-                      value={league.league_id}
-                      onChange={(e) => handleStep2(e.target.value)}
-                    />
-                    {league.league_name}
-                    <span>
-                      <img alt={league.league_name} src={league.league_logo} />
-                    </span>
-                  </label>
-                );
-              } else {
-                return (
-                  <label className="setup_card" key={league.league_id}>
-                    <input
-                      type="checkbox"
-                      value={league.league_id}
-                      onChange={(e) => {
-                        handleStep2(e.target.value);
-                      }}
-                    />
-                    {league.league_name}
-                    <span>
-                      <img alt={league.league_name} src={league.league_logo} />
-                    </span>
-                  </label>
-                );
-              }
-            })}
+        )}
+        {activeStep === 1 && (
+          <div>
+            <div className="card_div">
+              {leagues.map((league) => {
+                if (currentProfile.favorite_league === league.league_id) {
+                  return (
+                    <label className="setup_card" key={league.league_id}>
+                      <input
+                        checked
+                        disabled
+                        type="checkbox"
+                        value={league.league_id}
+                        onChange={(e) => handleStep2(e.target.value)}
+                      />
+                      {league.league_name}
+                      <span>
+                        <img alt={league.league_name} src={league.league_logo} />
+                      </span>
+                    </label>
+                  );
+                } else {
+                  return (
+                    <label className="setup_card" key={league.league_id}>
+                      <input
+                        type="checkbox"
+                        value={league.league_id}
+                        onChange={(e) => {
+                          handleStep2(e.target.value);
+                        }}
+                      />
+                      {league.league_name}
+                      <span>
+                        <img alt={league.league_name} src={league.league_logo} />
+                      </span>
+                    </label>
+                  );
+                }
+              })}
+            </div>
           </div>
-        </div>
-      )}
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        direction="row"
-        rows={1}
-        columns={2}
-      >
-        <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-          Back
-        </Button>
-        <Box sx={{ flex: '1 1 auto' }} />
-        <Button onClick={handleNext}>{activeStep === steps.length - 1 ? 'Finish' : 'Next'}</Button>
-        <Button onClick={logout}>logout</Button>
-      </Grid>
-    </Box>
+        )}
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="row"
+          rows={1}
+          columns={2}
+        >
+          <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+            Back
+          </Button>
+          <Box sx={{ flex: '1 1 auto' }} />
+          <Button onClick={handleNext}>
+            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+          </Button>
+        </Grid>
+      </Box>
+    </div>
   );
 }
