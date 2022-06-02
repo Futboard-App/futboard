@@ -3,7 +3,7 @@ import { useStateContext } from '../../StateProvider';
 import { useState, useEffect } from 'react';
 import { MenuItem, Select } from '@mui/material';
 import { getLeagueById, getUser, getProfile } from '../../services/supabase-utils';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import LeagueFixtures from '../widgets/LeagueFixtues.js';
 import BroadageWidget from 'broadage-widget-react';
 
@@ -21,7 +21,7 @@ export default function HomePage() {
   } = useStateContext();
   const [leagues, setLeagues] = useState([]);
   const [leagueId, setLeagueId] = useState(currentProfile.favorite_league);
-  const { push } = useHistory();
+  // const { push } = useHistory();
   const viewOptions = [
     'Standings',
     'Matches',
