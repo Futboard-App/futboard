@@ -41,7 +41,7 @@ function App() {
               <AboutUsPage />
             </Route>
             <Route exact path="/">
-              {currentUser ? (
+              {currentProfile.username ? (
                 <Redirect to="/profile-setup" />
               ) : (
                 <AuthPage setCurrentUser={setCurrentUser} />
