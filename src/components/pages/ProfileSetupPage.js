@@ -5,7 +5,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import {
   getAllLeagues,
   logout,
@@ -25,16 +25,11 @@ import { useHistory } from 'react-router-dom';
 
 const steps = ['Select favorite league', 'Select other leagues to follow'];
 
-export default function ProfileSetupPage() {
-  const [activeStep, setActiveStep] = React.useState(0);
+export default function ProfileSetupPage({ step }) {
+  const [activeStep, setActiveStep] = React.useState(step);
   const [skipped, setSkipped] = React.useState(new Set());
   const [leagues, setLeagues] = React.useState([]);
-  const {
-    currentProfile,
-    setCurrentProfile,
-    currentUser,
-    // setCurrentUser
-  } = useStateContext();
+  const { currentProfile, setCurrentProfile, currentUser } = useStateContext();
   const { push } = useHistory();
 
   React.useEffect(() => {
@@ -48,20 +43,6 @@ export default function ProfileSetupPage() {
     }
     load();
   }, []);
-
-  // React.useEffect(() => {
-  //   async function loadUser() {
-  //     if (!currentUser) {
-  //       const user = await getUser();
-  //       setCurrentUser(user);
-  //     }
-  //   }
-  //   loadUser();
-  // }, []);
-
-  // const isStepOptional = (step) => {
-  //   return step === 1;
-  // };
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -93,22 +74,6 @@ export default function ProfileSetupPage() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  // const handleSkip = () => {
-  //   push('/home');
-  //   if (!isStepOptional(activeStep)) {
-  //     // You probably want to guard against something like this,
-  //     // it should never occur unless someone's actively trying to break something.
-  //     throw new Error("You can't skip a step that isn't optional.");
-  //   }
-
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  //   setSkipped((prevSkipped) => {
-  //     const newSkipped = new Set(prevSkipped.values());
-  //     newSkipped.add(activeStep);
-  //     return newSkipped;
-  //   });
-  // };
-
   function handleStep1(league_id) {
     currentProfile.favorite_league = league_id;
     currentProfile.followed_leagues = [league_id];
@@ -128,15 +93,9 @@ export default function ProfileSetupPage() {
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
+        {steps.map((label) => {
           const stepProps = {};
           const labelProps = {};
-          // if (isStepOptional(index)) {
-          //   labelProps.optional = <Typography variant="caption">Optional</Typography>;
-          // }
-          // if (isStepSkipped(index)) {
-          //   stepProps.completed = false;
-          // }
           return (
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
@@ -238,11 +197,6 @@ export default function ProfileSetupPage() {
           Back
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
-        {/* {isStepOptional(activeStep) && (
-          <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-            Skip
-          </Button>
-        )} */}
         <Button onClick={handleNext}>{activeStep === steps.length - 1 ? 'Finish' : 'Next'}</Button>
         <Button onClick={logout}>logout</Button>
       </Grid>

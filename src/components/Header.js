@@ -1,17 +1,26 @@
 import { Button } from '@mui/material';
 import { logout } from '../services/supabase-utils';
 import './Header.scss';
-import logo from '../logo.svg';
-import { NavLink } from 'react-router-dom';
+import logo from '../logo-small.svg';
+import title from '../logo-title.svg';
+import { useHistory } from 'react-router-dom';
 
 export default function Header() {
+  const { push } = useHistory();
+  function handleBackToHome() {
+    push('/home');
+  }
   return (
     <nav className="nav">
       <img className="logo" src={logo} />
+      <img className="title" src={title} />
       <span>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/aboutus">About Us</NavLink>
-        <Button onClick={() => logout()}>Logout</Button>
+        <Button sx={{ color: '#ffaa0d' }} onClick={handleBackToHome}>
+          Home
+        </Button>
+        <Button sx={{ color: '#ffaa0d' }} onClick={() => logout()}>
+          Logout
+        </Button>
       </span>
     </nav>
   );

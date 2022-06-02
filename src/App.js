@@ -2,7 +2,7 @@
 import './App.css';
 import { useEffect } from 'react';
 import { useStateContext } from './StateProvider';
-import { getUser } from './services/supabase-utils';
+import { getProfile, getUser } from './services/supabase-utils';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import AuthPage from './components/pages/AuthPage';
 import ProfileSetupPage from './components/pages/ProfileSetupPage';
@@ -12,15 +12,25 @@ import TeamPage from './components/pages/TeamPage';
 import AboutUsPage from './components/pages/AboutUsPage';
 
 function App() {
-  const { currentUser, setCurrentUser, currentProfile } = useStateContext();
+  const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
 
   useEffect(() => {
-    async function load() {
+    async function loadUser() {
       const user = await getUser();
       setCurrentUser(user);
     }
-    load();
+    loadUser();
   }, []);
+
+  useEffect(() => {
+    async function loadProfile() {
+      const profile = await getProfile(currentUser.id);
+      setCurrentProfile(profile);
+    }
+    if (currentUser) {
+      loadProfile();
+    }
+  }, [currentUser]);
 
   return (
     <Router>
@@ -43,10 +53,10 @@ function App() {
                   currentProfile.step_2_complete ? (
                     <Redirect to="/home" />
                   ) : (
-                    <ProfileSetupPage step={2} />
+                    <ProfileSetupPage step={1} />
                   )
                 ) : (
-                  <ProfileSetupPage step={1} />
+                  <ProfileSetupPage step={0} />
                 )
               ) : (
                 <Redirect to="/" />
