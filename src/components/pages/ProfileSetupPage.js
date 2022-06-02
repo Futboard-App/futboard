@@ -5,19 +5,13 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-// import Typography from '@mui/material/Typography';
 import {
   getAllLeagues,
-  logout,
   getProfile,
   updateProfile,
-  // getUser,
 } from '../../services/supabase-utils';
 import {
-  Grid,
-  // InputLabel,
-  // MenuItem,
-  // Select
+  Grid
 } from '@mui/material';
 import { useStateContext } from '../../StateProvider';
 import './profile-setup.scss';

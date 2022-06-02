@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './AboutUs.scss';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -10,6 +9,7 @@ export default function AboutUsPage() {
   return (
     <div className="about-us-container">
       <Header />
+      <p>Here at Fútboard, we have one goal in mind. Bring the game to you!</p>
       <div className="team">
         <div className="team-member">
           <p>
@@ -19,7 +19,7 @@ export default function AboutUsPage() {
           <h3>Mohamed Amin</h3>
           <div className="icons">
             <a
-              href="https://www.linkedin.com/in/mohaamin/"
+              href="https://www.linkedin.com/in/mohaamin/" 
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -27,7 +27,7 @@ export default function AboutUsPage() {
             </a>
             <a href="https://github.com/taha-amin" target="_blank" rel="noopener noreferrer">
               <GitHubIcon />
-            </a>
+            </a> 
           </div>
           <p>Mohamed is a full-stack developer based in Portland Oregon</p>
           <p> Mohamed enjoys vidyagames and big chillin'.</p>

@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { signInUser, signUpUser, createProfile } from '../../services/supabase-utils';
