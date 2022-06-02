@@ -11,14 +11,7 @@ import Header from '../Header';
 import './HomePage.scss';
 
 export default function HomePage() {
-  const {
-    currentUser,
-    setCurrentUser,
-    currentProfile,
-    setCurrentProfile,
-    // searchQuery,
-    // setSearchQuery
-  } = useStateContext();
+  const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
   const [leagues, setLeagues] = useState([]);
   const [leagueId, setLeagueId] = useState(currentProfile.favorite_league);
   // const { push } = useHistory();

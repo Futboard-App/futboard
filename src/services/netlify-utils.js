@@ -1,7 +1,6 @@
 export async function getYelpData(stadium) {
   const rawResponse = await fetch(`/.netlify/functions/yelp-endpoint?stadium=${stadium}`);
   const data = await rawResponse.json();
-  // console.log(data);
 
   return data;
 }
