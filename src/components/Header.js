@@ -5,7 +5,7 @@ import logo from '../logo-small.svg';
 import title from '../logo-title.svg';
 import { useHistory } from 'react-router-dom';
 
-export default function Header() {
+export default function Header({ profileSetup }) {
   const { push } = useHistory();
   function handleBackToHome() {
     push('/home');
@@ -15,9 +15,11 @@ export default function Header() {
       <img className="logo" src={logo} />
       <img className="title" src={title} />
       <span>
-        <Button sx={{ color: '#ffaa0d' }} onClick={handleBackToHome}>
-          Home
-        </Button>
+        {!profileSetup && (
+          <Button sx={{ color: '#ffaa0d' }} onClick={handleBackToHome}>
+            Home
+          </Button>
+        )}
         <Button sx={{ color: '#ffaa0d' }} onClick={() => logout()}>
           Logout
         </Button>
