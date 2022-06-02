@@ -2,7 +2,7 @@
 import { useStateContext } from '../../StateProvider';
 import { useState, useEffect } from 'react';
 import { MenuItem, Select } from '@mui/material';
-import { getLeagueById } from '../../services/supabase-utils';
+import { getLeagueById, getUser, getProfile } from '../../services/supabase-utils';
 import { useHistory } from 'react-router-dom';
 import LeagueFixtures from '../widgets/LeagueFixtues.js';
 import BroadageWidget from 'broadage-widget-react';
@@ -12,8 +12,10 @@ import './HomePage.scss';
 
 export default function HomePage() {
   const {
-    // currentUser,
+    currentUser,
+    setCurrentUser,
     currentProfile,
+    setCurrentProfile,
     // searchQuery,
     // setSearchQuery
   } = useStateContext();
@@ -28,6 +30,38 @@ export default function HomePage() {
     'Cards Leaderboard',
   ];
   const [view, setView] = useState('Standings');
+
+  useEffect(() => {
+    const getUser = localStorage.getItem('user');
+    const getProfile = localStorage.getItem('profile');
+    const user = JSON.parse(getUser);
+    const profile = JSON.parse(getProfile);
+    setCurrentProfile(user);
+    setCurrentProfile(profile);
+  }, []);
+
+  useEffect(() => {
+    async function loadUser() {
+      const user = await getUser();
+      setCurrentUser(user);
+    }
+    async function loadProfile() {
+      const user = await getUser();
+      const profile = await getProfile(user.user.id);
+      setCurrentProfile(profile);
+    }
+    loadUser();
+    if (currentUser) {
+      loadProfile();
+    }
+  }, []);
+
+  useEffect(() => {
+    const user = JSON.stringify(currentUser);
+    const profile = JSON.stringify(currentProfile);
+    localStorage.setItem('user', user);
+    localStorage.setItem('profile', profile);
+  }, []);
 
   async function getAllLeagueNames(leagueId) {
     const response = await getLeagueById(leagueId);

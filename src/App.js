@@ -2,7 +2,7 @@
 import './App.css';
 import { useEffect } from 'react';
 import { useStateContext } from './StateProvider';
-import { getUser } from './services/supabase-utils';
+import { getProfile, getUser } from './services/supabase-utils';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import AuthPage from './components/pages/AuthPage';
 import ProfileSetupPage from './components/pages/ProfileSetupPage';
@@ -11,15 +11,50 @@ import MatchPage from './components/pages/MatchPage';
 import TeamPage from './components/pages/TeamPage';
 
 function App() {
-  const { currentUser, setCurrentUser, currentProfile } = useStateContext();
+  const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
+
+  // useEffect(() => {
+  //   const getUser = localStorage.getItem('user');
+  //   const getProfile = localStorage.getItem('profile');
+  //   const user = JSON.parse(getUser);
+  //   const profile = JSON.parse(getProfile);
+  //   setCurrentProfile(user);
+  //   setCurrentProfile(profile);
+  // }, []);
 
   useEffect(() => {
-    async function load() {
+    async function loadUser() {
       const user = await getUser();
       setCurrentUser(user);
     }
-    load();
+    // async function loadProfile() {
+    //   const user = await getUser();
+    //   const profile = await getProfile(user.user.id);
+    //   setCurrentProfile(profile);
+    // }
+    loadUser();
+    // if (currentUser) {
+    //   loadProfile();
+    // }
   }, []);
+
+  useEffect(() => {
+    async function loadProfile() {
+      const user = await getUser();
+      const profile = await getProfile(user.user.id);
+      setCurrentProfile(profile);
+    }
+    if (currentUser) {
+      loadProfile();
+    }
+  }, [currentUser]);
+
+  // useEffect(() => {
+  //   const user = JSON.stringify(currentUser);
+  //   const profile = JSON.stringify(currentProfile);
+  //   localStorage.setItem('user', user);
+  //   localStorage.setItem('profile', profile);
+  // }, []);
 
   return (
     <Router>

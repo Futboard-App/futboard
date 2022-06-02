@@ -15,10 +15,10 @@ export default function MatchPage() {
       const stadiumName = matchInfo.current._reactInternals.child.stateNode.querySelectorAll(
         '.broadage-match-info-name'
       )[2];
-      setStadiumName(stadiumName.textContent);
+      setStadiumName(stadiumName);
     }
     async function yelp() {
-      const yelpData = await getYelpData(stadiumName);
+      const yelpData = await getYelpData(stadiumName.textContent);
       console.log(yelpData);
       setBusinessList(yelpData.data.businesses);
     }
