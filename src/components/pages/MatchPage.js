@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useParams } from 'react-router-dom';
 import BroadageWidget from 'broadage-widget-react';
@@ -14,10 +15,10 @@ export default function MatchPage() {
 
   useEffect(() => {
     async function wait() {
-      const stadiumName = matchInfo.current._reactInternals.child.stateNode.querySelectorAll(
+      const stadium = matchInfo.current._reactInternals.child.stateNode.querySelectorAll(
         '.broadage-match-info-name'
       )[2];
-      setStadiumName(stadiumName);
+      setStadiumName(stadium);
     }
     async function yelp() {
       const yelpData = await getYelpData(stadiumName.textContent);
@@ -32,6 +33,7 @@ export default function MatchPage() {
     <div>
       <Header />
       <BroadageWidget
+        ref={matchInfo}
         requiredFields={{ matchId: id }}
         options={{
           webNotification: true,
@@ -73,7 +75,6 @@ export default function MatchPage() {
         accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
         className="widget-wrapper"
       />
-
       <div className="yelp-businesses">
         <h3>Near by restaurants</h3>
         <div className="businesses-list">
