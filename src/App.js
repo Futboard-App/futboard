@@ -9,6 +9,7 @@ import ProfileSetupPage from './components/pages/ProfileSetupPage';
 import HomePage from './components/pages/HomePage';
 import MatchPage from './components/pages/MatchPage';
 import TeamPage from './components/pages/TeamPage';
+import AboutUsPage from './components/pages/AboutUsPage';
 
 function App() {
   const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
@@ -36,6 +37,9 @@ function App() {
       <div className="App">
         <main>
           <Switch>
+            <Route exact path="/aboutus">
+              <AboutUsPage />
+            </Route>
             <Route exact path="/">
               {currentUser ? (
                 <Redirect to="/profile-setup" />
