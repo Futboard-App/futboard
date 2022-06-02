@@ -1,0 +1,21 @@
+.auth-page {
+  background-color: #1e1b1e;
+  height: 100vh;
+  color: aliceblue;
+  .logo{
+      width: 400px;
+      margin-top: 20px;
+  }
+  .forms {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

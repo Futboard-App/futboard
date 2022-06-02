@@ -1,9 +1,8 @@
 import { Button } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import { logout } from '../services/supabase-utils';
 import './Header.scss';
 import logo from '../logo.svg';
-import AboutUsPage from './pages/AboutUsPage';
+import { NavLink } from 'react-router-dom';
 
 export default function Header() {
   return (
