@@ -18,6 +18,7 @@ exports.handler = async (event, context) => {
       }
     );
     const data = await response.json();
+    console.log(data);
 
     return {
       statusCode: 200,
@@ -31,3 +32,4 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ error: 'Failed fetching data' }),
     };
   }
+};
