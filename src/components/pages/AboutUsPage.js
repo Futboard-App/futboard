@@ -9,14 +9,14 @@ export default function AboutUsPage() {
   return (
     <div className="about-us-container">
       <Header />
-      <h1>Here at Fútboard, we have one goal in mind. Bring the game to you!</h1>
+      <h1>Here at Fútboard, we have one goal in mind<br></br> Bring the game to you!</h1>
       <div className="team">
         <div className="team-member">
           <p>
             <em>"Mia san Mia"</em>
           </p>
           <img src="./ProfilePicture.png" alt="" />
-          <h3>Mohamed Amin</h3>
+          <h2>Mohamed Amin</h2>
           <div className="icons">
             <a
               href="https://www.linkedin.com/in/mohaamin/"
@@ -39,7 +39,7 @@ export default function AboutUsPage() {
             <em>"Nisi Dominus Frustra"</em>
           </p>
           <img src="./riley-headshot.jpeg" alt="" />
-          <h3>Riley Hoffman</h3>
+          <h2>Riley Hoffman</h2>
           <div className="icons">
             <a
               href="https://www.linkedin.com/in/riley-j-hoffman/"
@@ -65,9 +65,9 @@ export default function AboutUsPage() {
             <em>"Ici c'est Paris"</em>
           </p>
           <img src="./alonzo.jpg" alt="" />
-          <h3>
-            <em>Alonzo Anderson</em>
-          </h3>
+          <h2>
+            Alonzo Anderson
+          </h2>
           <div className="icons">
             <a
               href="https://www.linkedin.com/in/alonzo-anderson-8a6a27172/"
@@ -87,10 +87,10 @@ export default function AboutUsPage() {
 
         <div className="team-member">
           <p>
-            <em>"No Pity In the Rose City"</em>
+            <em>"No Pity In Rose City"</em>
           </p>
           <img src="./kevin.jpg" alt="" />
-          <h3>Kevin Roney</h3>
+          <h2>Kevin Roney</h2>
           <div className="icons">
             <a
               href="https://www.linkedin.com/in/kevin-roney/"

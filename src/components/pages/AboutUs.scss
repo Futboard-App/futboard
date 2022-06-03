@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Germania+One&display=swap');
+
 .about-us-container {
   background-color: #1e1b1e;
   color: #ffaa0d;
   height: 100vh;
   h1 {
-    color: #2291a4;
+    color: #ffaa0d;
+    font-family: 'Germania One', cursive;
+  }
+  h2 {
+    font-family: 'Germania One', cursive;
   }
   .team {
     display: flex;
