@@ -20,3 +20,11 @@
 body {
   background-color: #1e1b1e;
 }
+
+.title {
+  display:block;
+  justify-self:auto;
+}
+/* .logo{
+  padding-right: 200.56px;
+} */

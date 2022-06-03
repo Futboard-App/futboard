@@ -10,16 +10,24 @@ export default function Header({ profileSetup }) {
   function handleBackToHome() {
     push('/home');
   }
+  function handleToAboutUs() {
+    push('/aboutus');
+  }
   return (
     <nav className="nav">
-      <img className="logo" src={logo} />
-      <img className="title" src={title} />
+      <div className="logo-title-container">
+        <img className="logo" src={logo} />
+        <img className="title" src={title} />
+      </div>
       <span>
         {!profileSetup && (
           <Button sx={{ color: '#ffaa0d' }} onClick={handleBackToHome}>
             Home
           </Button>
         )}
+        <Button sx={{ color: '#ffaa0d' }} onClick={handleToAboutUs}>
+          Meet the Team
+        </Button>
         <Button sx={{ color: '#ffaa0d' }} onClick={() => logout()}>
           Logout
         </Button>
