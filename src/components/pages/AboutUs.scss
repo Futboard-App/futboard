@@ -2,13 +2,15 @@
   background-color: #1e1b1e;
   color: #ffaa0d;
   height: 100vh;
-
+  h1 {
+    color: #2291a4;
+  }
   .team {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     justify-content: center;
-
+    padding: 0px 20px;
     img {
       border-radius: 50%;
       width: 125px;
@@ -20,6 +22,7 @@
       align-items: center;
       justify-content: center;
       margin-right: 25px;
+      width: 25%;
     }
 
     .icons {

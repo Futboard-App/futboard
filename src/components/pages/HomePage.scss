@@ -1,5 +1,6 @@
 .home-page {
     background-color: #1e1b1e;
+    height: 100vh;
         .fixtures{
         height: 100px;
     }
@@ -7,5 +8,10 @@
     .select-container {
         display: flex;
         justify-content: space-around;
+    }
+    .css-gwd4s4-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+        background-color: #2291a4;
+        color: #1e1b1e;
+        border: 3px solid #ffaa0d;
     }
 }
