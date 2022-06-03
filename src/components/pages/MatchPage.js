@@ -24,8 +24,8 @@ export default function MatchPage() {
       const yelpData = await getYelpData(stadiumName.textContent);
       setBusinessList(yelpData.data.businesses);
     }
-    setTimeout(wait, 1000);
-    setTimeout(yelp, 3000);
+    setTimeout(wait, 2000);
+    setTimeout(yelp, 4000);
   }, [stadiumName]);
 
   return (
