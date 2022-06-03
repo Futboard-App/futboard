@@ -40,22 +40,22 @@
   .step .Mui-disabled span {
     color: #ffaa0d60;
   }
-  .step .Mui-disabled .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root {
+  .step .Mui-disabled .MuiSvgIcon-root {
     color: #ffaa0d60;
   }
   .step span {
     color: #ffaa0d;
   }
-  .step .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root {
+  .step .MuiSvgIcon-root {
     color: #ffaa0d;
   }
-  .step .css-117w1su-MuiStepIcon-text {
+  .step .MuiStepIcon-text {
     fill:#1e1b1e
   }
-  .Mui-disabled .css-z7uhs0-MuiStepConnector-line {
+  .Mui-disabled.MuiStepConnector-root span {
     border-color: #ffaa0d60;
   }
-  .css-z7uhs0-MuiStepConnector-line {
+  .MuiStepConnector-root span {
     border-color: #ffaa0d;
   }
 }
@@ -75,20 +75,16 @@
   scrollbar-width: none;
 }
 
-.css-1hbmzt3-MuiGrid-root {
+.button-container {
   background-color: #1e1b1e;
   justify-content: center;
-  .css-11qjisw {
-    flex: 0;
-    width: 0;
-  }
   button{
     margin: 0px 50px;
   }
-  .css-a1sg1c-MuiButtonBase-root-MuiButton-root.Mui-disabled, .css-1e6y48t-MuiButtonBase-root-MuiButton-root.Mui-disabled{
+  .back-button.Mui-disabled, .next-button.Mui-disabled{
     color: #ffaa0d60;
   }
-  .css-1e6y48t-MuiButtonBase-root-MuiButton-root, .css-a1sg1c-MuiButtonBase-root-MuiButton-root{
+  .next-button, .back-button{
     color:#ffaa0d;
   }
 }
