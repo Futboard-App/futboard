@@ -21,13 +21,15 @@ export default function Header({ profileSetup }) {
       </div>
       <span>
         {!profileSetup && (
-          <Button sx={{ color: '#ffaa0d' }} onClick={handleBackToHome}>
-            Home
-          </Button>
+          <>
+            <Button sx={{ color: '#ffaa0d' }} onClick={handleBackToHome}>
+              Home
+            </Button>
+            <Button sx={{ color: '#ffaa0d' }} onClick={handleToAboutUs}>
+              Meet the Team
+            </Button>
+          </>
         )}
-        <Button sx={{ color: '#ffaa0d' }} onClick={handleToAboutUs}>
-          Meet the Team
-        </Button>
         <Button sx={{ color: '#ffaa0d' }} onClick={() => logout()}>
           Logout
         </Button>

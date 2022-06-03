@@ -5,14 +5,8 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import {
-  getAllLeagues,
-  getProfile,
-  updateProfile,
-} from '../../services/supabase-utils';
-import {
-  Grid
-} from '@mui/material';
+import { getAllLeagues, getProfile, updateProfile } from '../../services/supabase-utils';
+import { Grid } from '@mui/material';
 import { useStateContext } from '../../StateProvider';
 import './profile-setup.scss';
 import { useHistory } from 'react-router-dom';
@@ -191,17 +185,23 @@ export default function ProfileSetupPage({ step }) {
           direction="row"
           rows={1}
           columns={2}
+          className="button-container"
         >
-          <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+          <Button
+            className="back-button"
+            color="inherit"
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ mr: 1 }}
+          >
             Back
           </Button>
-          <Box sx={{ flex: '1 1 auto' }} />
           {nextButtonOn ? (
-            <Button onClick={handleNext}>
+            <Button className="next-button" onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           ) : (
-            <Button disabled onClick={handleNext}>
+            <Button className="next-button" disabled onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           )}
