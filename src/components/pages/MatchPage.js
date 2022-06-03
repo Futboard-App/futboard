@@ -20,12 +20,19 @@ export default function MatchPage() {
       )[2];
       setStadiumName(stadium);
     }
-    async function yelp() {
-      const yelpData = await getYelpData(stadiumName.textContent);
-      setBusinessList(yelpData.data.businesses);
-    }
     setTimeout(wait, 2000);
-    setTimeout(yelp, 4000);
+  }, []);
+
+  useEffect(() => {
+    async function yelp() {
+      if (stadiumName) {
+        const yelpData = await getYelpData(stadiumName.textContent);
+        if (yelpData.data) {
+          setBusinessList(yelpData.data.businesses);
+        }
+      }
+    }
+    yelp();
   }, [stadiumName]);
 
   return (
@@ -74,22 +81,32 @@ export default function MatchPage() {
         accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
         className="widget-wrapper"
       />
-      <div className="yelp-businesses">
-        <h3>Nearby Restaurants</h3>
-        <div className="businesses-list">
-          {businessList.map((business) => (
-            <a key={business.id} href={business.url}>
-              <div className="business">
-                <img src={business.image_url} alt={business.name} />
-                <div className="business-info">
-                  <div className="business-name">{business.name}</div>
-                  <div className="business-rating">{business.rating}⭐</div>
-                </div>
-              </div>
-            </a>
-          ))}
+      {stadiumName === '' ? (
+        <div className="yelp-businesses">
+          <h3>Loading Nearby Businesses</h3>
         </div>
-      </div>
+      ) : businessList.length > 0 ? (
+        <div className="yelp-businesses">
+          <h3>Nearby Businesses</h3>
+          <div className="businesses-list">
+            {businessList.map((business) => (
+              <a key={business.id} href={business.url}>
+                <div className="business">
+                  <img src={business.image_url} alt={business.name} />
+                  <div className="business-info">
+                    <div className="business-name">{business.name}</div>
+                    <div className="business-rating">{business.rating}⭐</div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="yelp-businesses">
+          <h3>Cannot Find Nearby Businesses</h3>
+        </div>
+      )}
     </div>
   );
 }
