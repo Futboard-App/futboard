@@ -21,14 +21,14 @@
         flex-direction: column;
         overflow: scroll;
         height: 287px;
-        ::-webkit-scrollbar {
-            display: none;
-        }
         -ms-overflow-style: none;
         scrollbar-width: none;
         border: 2px solid #ffaa0d;
         border-radius: 5px;
         margin-bottom: 10px;
         padding: 10px 0;
+    }
+    .businesses-list::-webkit-scrollbar {
+        display: none;
     }
 }
