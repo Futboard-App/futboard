@@ -4,7 +4,6 @@ import { useStateContext } from '../../StateProvider';
 import { useState, useEffect } from 'react';
 import { MenuItem, Select } from '@mui/material';
 import { getLeagueById, getUser, getProfile } from '../../services/supabase-utils';
-import LeagueFixtures from '../widgets/LeagueFixtues.js';
 import BroadageWidget from 'broadage-widget-react';
 
 import Header from '../Header';
@@ -187,7 +186,6 @@ export default function HomePage() {
             className="widget-wrapper"
           />
         )}
-        <LeagueFixtures leagueId={leagueId} />
       </div>
     </div>
   );

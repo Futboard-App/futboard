@@ -28,7 +28,6 @@ export default function MatchPage() {
     setTimeout(yelp, 3000);
   }, [stadiumName]);
 
-
   return (
     <div>
       <Header />
@@ -76,7 +75,7 @@ export default function MatchPage() {
         className="widget-wrapper"
       />
       <div className="yelp-businesses">
-        <h3>Near by restaurants</h3>
+        <h3>Nearby Restaurants</h3>
         <div className="businesses-list">
           {businessList.map((business) => (
             <a key={business.id} href={business.url}>
@@ -84,9 +83,7 @@ export default function MatchPage() {
                 <img src={business.image_url} alt={business.name} />
                 <div className="business-info">
                   <div className="business-name">{business.name}</div>
-                  <div className="business-rating">
-                    {business.rating}⭐
-                  </div>
+                  <div className="business-rating">{business.rating}⭐</div>
                 </div>
               </div>
             </a>
