@@ -29,8 +29,8 @@ export default function AuthPage({ setCurrentUser }) {
     e.preventDefault();
     const { email, password } = signUpData;
     const user = await signUpUser(email, password);
-    setCurrentUser(user);
     await createProfile(email);
+    setCurrentUser(user);
     push('/');
   }
 
