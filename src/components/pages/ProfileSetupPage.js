@@ -15,7 +15,9 @@ import Header from '../Header.js';
 const steps = ['Select favorite league', 'Select other leagues to follow'];
 
 export default function ProfileSetupPage({ step }) {
+  // why is the word React kicking around so much here? it's okay to take some code from the docs as a starting place, but you should clean it up to match your team's code style
   const [activeStep, setActiveStep] = React.useState(step);
+  // hey, a Set! cool!
   const [skipped, setSkipped] = React.useState(new Set());
   const [leagues, setLeagues] = React.useState([]);
   const [nextButtonOn, setNextButtonOn] = React.useState(false);
@@ -98,6 +100,7 @@ export default function ProfileSetupPage({ step }) {
         </Stepper>
 
         {activeStep === 0 && (
+          // seems like you might want a Card component to reduce this duplication, since you reuse much of these 40 lines of JSX twice on this page. You could easily lose 60 lines of code with that change, which is a big deal in a ~200-line file
           <div className="card_container">
             <div className="card_div">
               {leagues.map((league) => {

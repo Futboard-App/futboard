@@ -1,3 +1,5 @@
+/* Nice work integrating the plain JS widget into the rest of your react app. I would have liked to see more effort put into addressing code duplication--specifically, the widget component should have been refactored into its own file, since you pass it the same props over and over again through the app, with small differences that should have been encapsulatedd as props. You had a great final product for the user, but maintainability issues would come up here if the project got much bigger. Nice work!
+ */
 /* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
 import { useEffect } from 'react';
@@ -12,6 +14,8 @@ import TeamPage from './components/pages/TeamPage';
 import AboutUsPage from './components/pages/AboutUsPage';
 
 function App() {
+  // very cool that you dug into context for this! 
+  // It's a great idea to dump user data in context, since it's used throught any app
   const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
 
   useEffect(() => {
