@@ -7,6 +7,17 @@ import { useEffect, useRef, useState } from 'react';
 import { getYelpData } from '../../services/netlify-utils';
 import './MatchPage.scss';
 
+// seems like this encapsulates the differences among your widgets, so now we can map over and reduce duplication
+const widgetData = [
+  {
+    options: { teamRedirectUrl: '/team/{teamId}' },
+    widget: "soccerMatchCenter",
+    bundleId: "soccer-mc"
+  },
+  { options: { tournamentNavigationType: 'navigation' } },
+  { options: { tournamentNavigationType: 'navigation' } }
+];
+
 export default function MatchPage() {
   const { id } = useParams();
   const [stadiumName, setStadiumName] = useState('');
@@ -15,6 +26,8 @@ export default function MatchPage() {
 
   useEffect(() => {
     async function wait() {
+      // seems like there should be a better way to do this. it's always a little icky when you see explicity DOM manipulation inside a react component. 
+      // are you digging into the DOM widget here, i guess? and had no access to the JSON directly? that's a pretty good excuse, if so :)
       const stadium = matchInfo.current._reactInternals.child.stateNode.querySelectorAll(
         '.broadage-match-info-name'
       )[2];
@@ -24,6 +37,7 @@ export default function MatchPage() {
       const yelpData = await getYelpData(stadiumName.textContent);
       setBusinessList(yelpData.data.businesses);
     }
+    // this is something it seems like could have just been done with async/await and a while loop? setTimeouts are usually a code smell. we should try to wait for the actual event, not our estimate of how long the actual event "usually" takes? i'd give more details on how to proceed, but i'm not sure what the 2000 and 4000 milliseconds are waiting for (a good reason to name these numbers in const WIDGET_LOADING_TIME = 2000, or whatever)
     setTimeout(wait, 2000);
     setTimeout(yelp, 4000);
   }, [stadiumName]);
@@ -31,49 +45,25 @@ export default function MatchPage() {
   return (
     <div>
       <Header />
-      <BroadageWidget
-        ref={matchInfo}
-        requiredFields={{ matchId: id }}
-        options={{
-          webNotification: true,
-          sportFilter: false,
-          regionalMatchViewType: 'american',
-          teamRedirectUrl: '/team/{teamId}',
-          theme: 'black',
-        }}
-        widget="soccerMatchCenter"
-        bundleId="soccer-mc"
-        accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
-        className="widget-wrapper"
+      {
+      widgetData.map((item, i) =>       
+        <BroadageWidget
+          key={item.bundleId + i}
+          ref={matchInfo}
+          requiredFields={{ matchId: id }}
+          options={{
+            webNotification: true,
+            sportFilter: false,
+            regionalMatchViewType: 'american',
+            theme: 'black',
+            ...item.options,
+          }}
+          widget={item.widget || "soccerH2hStats"}
+          bundleId={item.bundleId || "soccer-hs"}
+          accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
+          className="widget-wrapper"
       />
-      <BroadageWidget
-        requiredFields={{ matchId: id }}
-        options={{
-          webNotification: true,
-          sportFilter: false,
-          regionalMatchViewType: 'american',
-          tournamentNavigationType: 'navigation',
-          theme: 'black',
-        }}
-        widget="soccerMissingPlayers"
-        bundleId="soccer-mp"
-        accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
-        className="widget-wrapper"
-      />
-      <BroadageWidget
-        requiredFields={{ matchId: id }}
-        options={{
-          webNotification: true,
-          sportFilter: false,
-          regionalMatchViewType: 'american',
-          tournamentNavigationType: 'navigation',
-          theme: 'black',
-        }}
-        widget="soccerH2hStats"
-        bundleId="soccer-hs"
-        accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
-        className="widget-wrapper"
-      />
+    )}
       <div className="yelp-businesses">
         <h3>Nearby Restaurants</h3>
         <div className="businesses-list">

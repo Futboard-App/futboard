@@ -22,17 +22,7 @@ export default function HomePage() {
   ];
   const [view, setView] = useState('Standings');
 
-  async function getAllLeagueNames(leagueId) {
-    const response = await getLeagueById(leagueId);
-    if (leagues.length < currentProfile.followed_leagues.length) {
-      leagues.push(response);
-      leagues.sort((a, b) => {
-        return a.league_id > b.league_id ? 1 : -1;
-      });
-      setLeagues([...leagues]);
-    }
-  }
-
+  // hooks typically go at the top
   useEffect(() => {
     async function loadProfileHome() {
       const user = await getUser();
@@ -45,11 +35,19 @@ export default function HomePage() {
 
   useEffect(() => {
     if (currentProfile.username) {
-      currentProfile.followed_leagues.map((league) => {
-        getAllLeagueNames(league);
-      });
+      currentProfile.followed_leagues
+        .map((league) => getAllLeagueNames(league));
     }
   }, [currentProfile]);
+
+  async function getAllLeagueNames(leagueId) {
+    const response = await getLeagueById(leagueId);
+    if (leagues.length < currentProfile.followed_leagues.length) {
+      leagues.push(response);
+      leagues.sort((a, b) => a.league_id > b.league_id ? 1 : -1);
+      setLeagues([...leagues]);
+    }
+  }
 
   function handleLeagueChange(e) {
     setLeagueId(e.target.value);
@@ -68,7 +66,7 @@ export default function HomePage() {
           {currentProfile.username && (
             <Select
               sx={{ background: 'lightgrey' }}
-              onChange={(e) => handleLeagueChange(e)}
+              onChange={handleLeagueChange}
               defaultValue={currentProfile.favorite_league}
             >
               {leagues.map((league) => {
@@ -83,7 +81,7 @@ export default function HomePage() {
           {/* select view */}
           <Select
             sx={{ background: 'lightgrey' }}
-            onChange={(e) => handleViewChange(e)}
+            onChange={handleViewChange}
             defaultValue={0}
           >
             {viewOptions.map((viewOption, index) => {
@@ -95,6 +93,9 @@ export default function HomePage() {
             })}
           </Select>
         </div>
+        {/* i'm not going to puzzle through it, but there is a lot of duplicate code here that could have been reduced with a hashMap whose keys correspond to each of these views: { Standings: { wigdet: 'soccerStandings", bundleId }, etc, etc }. */}
+        {/* Then you'd be able to just dump the props in according to what's in viewMap[view].options, or whatever */}
+        {/* another option would be to move these Widgets to their own HomepagWidgets component so that the duplication is at least hidden away from the rest of this component */}
         {/* standings view */}
         {view === 'Standings' && (
           <BroadageWidget
