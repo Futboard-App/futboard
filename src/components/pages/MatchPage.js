@@ -50,7 +50,7 @@ export default function MatchPage() {
         }}
         widget="soccerMatchCenter"
         bundleId="soccer-mc"
-        accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
+        accountId="43229b19-7057-40c2-9b1f-5c919bf35b09"
         className="widget-wrapper"
       />
       <BroadageWidget
@@ -64,7 +64,7 @@ export default function MatchPage() {
         }}
         widget="soccerMissingPlayers"
         bundleId="soccer-mp"
-        accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
+        accountId="43229b19-7057-40c2-9b1f-5c919bf35b09"
         className="widget-wrapper"
       />
       <BroadageWidget
@@ -78,7 +78,7 @@ export default function MatchPage() {
         }}
         widget="soccerH2hStats"
         bundleId="soccer-hs"
-        accountId="0c3f42cf-082d-4d23-a935-660b656c78ee"
+        accountId="43229b19-7057-40c2-9b1f-5c919bf35b09"
         className="widget-wrapper"
       />
       {stadiumName === '' ? (
