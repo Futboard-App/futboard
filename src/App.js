@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useStateContext } from './StateProvider';
 import { getProfile, getUser } from './services/supabase-utils';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
@@ -13,11 +13,13 @@ import AboutUsPage from './components/pages/AboutUsPage';
 
 function App() {
   const { currentUser, setCurrentUser, currentProfile, setCurrentProfile } = useStateContext();
+  const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
     async function loadUser() {
       const user = await getUser();
       setCurrentUser(user);
+      setUserLoaded(true);
     }
     loadUser();
   }, []);
@@ -27,7 +29,7 @@ function App() {
       const profile = await getProfile(currentUser.id);
       setCurrentProfile(profile);
     }
-    if (currentUser) {
+    if (userLoaded) {
       loadProfile();
     }
   }, [currentUser]);

@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install --dev
+      - run: npm install --include=dev --force
       - run: npx eslint .
       - run: npm test --passWithNoTests
         env:
