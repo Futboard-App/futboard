@@ -109,7 +109,7 @@ export default function HomePage() {
             }}
             widget="soccerStandings"
             bundleId="soccer-st"
-            accountId="43229b19-7057-40c2-9b1f-5c919bf35b09"
+            accountId="6bf0cf44-e13a-44e1-8008-ff17ba6c2128"
             queryStringParse={{ tournamentId: 'tid' }}
             className="widget-wrapper"
           />
@@ -130,7 +130,7 @@ export default function HomePage() {
             }}
             widget="soccerFixture"
             bundleId="soccer-fx"
-            accountId="43229b19-7057-40c2-9b1f-5c919bf35b09"
+            accountId="6bf0cf44-e13a-44e1-8008-ff17ba6c2128"
             queryStringParse={{ tournamentId: 'tid' }}
             className="widget-wrapper"
           />
@@ -147,7 +147,7 @@ export default function HomePage() {
             }}
             widget="soccerLeaderboardGoals"
             bundleId="soccer-lbg"
-            accountId="43229b19-7057-40c2-9b1f-5c919bf35b09"
+            accountId="6bf0cf44-e13a-44e1-8008-ff17ba6c2128"
             queryStringParse={{ tournamentId: 'tid' }}
             className="widget-wrapper"
           />
@@ -164,7 +164,7 @@ export default function HomePage() {
             }}
             widget="soccerLeaderboardAssists"
             bundleId="soccer-lba"
-            accountId="43229b19-7057-40c2-9b1f-5c919bf35b09"
+            accountId="6bf0cf44-e13a-44e1-8008-ff17ba6c2128"
             queryStringParse={{ tournamentId: 'tid' }}
             className="widget-wrapper"
           />
@@ -181,7 +181,7 @@ export default function HomePage() {
             }}
             widget="soccerLeaderboardCards"
             bundleId="soccer-lbc"
-            accountId="43229b19-7057-40c2-9b1f-5c919bf35b09"
+            accountId="6bf0cf44-e13a-44e1-8008-ff17ba6c2128"
             queryStringParse={{ tournamentId: 'tid' }}
             className="widget-wrapper"
           />
